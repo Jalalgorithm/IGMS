@@ -1,0 +1,4 @@
+# Client-side routing: /privacy-policy, /terms-of-service, /disclaimer and
+# /cookie-policy are React Router paths with no file behind them, so a direct
+# hit or a refresh must be served index.html. (Netlify / Cloudflare Pages)
+/*    /index.html   200
