@@ -28,7 +28,7 @@ const AREAS: readonly FocusArea[] = [
     label: 'STEM through Sport',
     summary: 'STEM, AI, green skills and digital literacy for everyone told it was not for them.',
     image: stem,
-    alt: 'A group of cyclists riding together along a country road',
+    alt: 'A coach with a tactics board talking to a team of young wheelchair basketball players',
   },
   {
     targetId: 'launchpad',

@@ -3,6 +3,7 @@ import { SectionHeading } from '@/components/shared/SectionHeading';
 import { Button } from '@/components/ui/Button';
 import { StatusChip } from '@/components/ui/StatusChip';
 import { useWaitlistUiStore } from '@/stores/waitlistUiStore';
+import { scrollToSection } from '@/utils/scrollToSection';
 import type { ProgrammeId } from '@/features/waitlist';
 import type { PathwayCard } from '../types';
 
@@ -20,7 +21,7 @@ const PATHWAYS: ReadonlyArray<PathwayCard & { programmeId: ProgrammeId }> = [
     audience: 'Transition support',
     programmeId: 'launchpad-veterans',
   },
-  { name: 'RISE+', audience: 'Ages 13–16', programmeId: 'launchpad-rise-plus' },
+  { name: 'RISE+', audience: 'Ages 9–17', programmeId: 'launchpad-rise-plus' },
 ];
 
 export const LaunchPad = () => {
@@ -69,6 +70,55 @@ export const LaunchPad = () => {
             </li>
           ))}
         </ul>
+
+        {/* RISE+ spans two distinct age bands with different offers, which the
+            one-line pathway card above cannot carry. It gets its own panel
+            rather than an uneven fifth card. */}
+        <Reveal className="mb-12 rounded-[var(--radius-card)] bg-white p-8 shadow-card hc-outline sm:p-10">
+          <div className="mb-4 flex flex-wrap items-baseline gap-x-3 gap-y-1">
+            <h3 className="m-0 font-display text-2xl font-semibold text-terracotta">
+              The RISE+ Project
+            </h3>
+            <p className="m-0 font-sans text-sm text-warm-grey">
+              with a{' '}
+              <a
+                href="#lift-project"
+                onClick={(event) => {
+                  event.preventDefault();
+                  scrollToSection('lift-project');
+                }}
+                className="font-medium text-terracotta underline underline-offset-4 hover:text-charcoal"
+              >
+                Lift Project
+              </a>{' '}
+              wraparound
+            </p>
+          </div>
+
+          <p className="m-0 mb-7 max-w-2xl font-sans text-base leading-[1.7] text-charcoal">
+            A resilience initiative supporting young people aged 9–17, guiding them from early
+            belonging through to positive, hopeful futures.
+          </p>
+
+          <ul className="m-0 grid list-none gap-5 p-0 sm:grid-cols-2">
+            <li className="rounded-[var(--radius-tile)] border-[1.5px] border-sand p-5">
+              <p className="m-0 mb-2 font-sans text-[0.6875rem] font-semibold uppercase tracking-[0.08em] text-warm-grey">
+                Ages 9–13
+              </p>
+              <p className="m-0 font-sans text-[0.9375rem] leading-relaxed text-charcoal">
+                Gentle mentoring to build confidence and connection.
+              </p>
+            </li>
+            <li className="rounded-[var(--radius-tile)] border-[1.5px] border-sand p-5">
+              <p className="m-0 mb-2 font-sans text-[0.6875rem] font-semibold uppercase tracking-[0.08em] text-warm-grey">
+                Ages 13–17
+              </p>
+              <p className="m-0 font-sans text-[0.9375rem] leading-relaxed text-charcoal">
+                RISE+ supportive workshops nurturing resilience and hope.
+              </p>
+            </li>
+          </ul>
+        </Reveal>
 
         <Reveal className="flex flex-wrap items-center gap-4">
           <Button onClick={() => requestWaitlistFocus(PATHWAYS.map((p) => p.programmeId))}>

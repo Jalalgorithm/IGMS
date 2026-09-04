@@ -43,12 +43,26 @@ export const SiteFooter = () => {
                 {ORG.shortName}
               </span>
             </div>
-            <p className="m-0 max-w-xs font-sans text-[0.8125rem] leading-relaxed text-ivory/60">
+            <p className="m-0 max-w-sm font-sans text-[0.8125rem] leading-relaxed text-ivory/60">
               {ORG.legalName}
               <br />
               Registered No: {ORG.registeredNumber}
               <br />
               {ORG.address}
+            </p>
+
+            <p className="m-0 mt-3 max-w-md font-sans text-[0.8125rem] leading-relaxed text-ivory/60">
+              We are registered with the Information Commissioner&rsquo;s Office (ICO) under
+              registration number {ORG.icoRegistration}{' '}
+              {/* Kept whole so it never breaks mid-phrase across two lines. */}
+              <a
+                href={ORG.icoRegisterUrl}
+                target="_blank"
+                rel="noreferrer noopener"
+                className="whitespace-nowrap font-medium text-ivory/85 underline underline-offset-2 hover:text-marigold"
+              >
+                (verify at ico.org.uk)
+              </a>
             </p>
           </div>
 

@@ -51,7 +51,7 @@ export const PROGRAMMES: readonly Programme[] = [
   {
     id: 'launchpad-rise-plus',
     name: 'RISE+',
-    audience: 'Ages 13–16, resilience and positive life choices',
+    audience: 'Ages 9–17, resilience and hopeful futures',
     group: 'LaunchPad101',
     availability: 'coming-soon',
   },

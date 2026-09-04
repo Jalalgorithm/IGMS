@@ -1,5 +1,5 @@
 import { apiClient } from '@/lib/apiClient';
-import type { ApiErrorShape } from '@/types';
+import type { ApiEnvelope, ApiErrorShape } from '@/types';
 import type { WaitlistEntry, WaitlistSubmission } from '../types';
 
 const USE_MOCK = (import.meta.env.VITE_USE_MOCK_API ?? 'true') !== 'false';
@@ -93,8 +93,13 @@ export const submitWaitlistEntry = async (
 ): Promise<WaitlistEntry> => {
   if (USE_MOCK) return submitMock(submission);
 
-  const { data } = await apiClient.post<WaitlistEntry>('/waitlist', submission);
-  return data;
+  // The backend wraps every payload in { success, message, data } — the entry
+  // is one level down. Errors are already flattened by the axios interceptor.
+  const { data: envelope } = await apiClient.post<ApiEnvelope<WaitlistEntry>>(
+    '/waitlist',
+    submission,
+  );
+  return envelope.data;
 };
 
 /** Entries saved by the mock, for the "already joined" hint on the form. */

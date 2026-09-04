@@ -18,7 +18,7 @@ const VIDEO_WATCH_URL =
 const STATS = [
   { value: '16+', caption: 'Hours of instruction per curriculum', large: true },
   { value: '12+', caption: 'Sports covered', large: true },
-  { value: 'Year 1–9 + SEN', caption: 'Plus special education', large: false },
+  { value: 'Year 1–9 + SEN', caption: 'Including special education needs', large: false },
 ] as const;
 
 export const StemSports = () => (
@@ -31,8 +31,15 @@ export const StemSports = () => (
       <SectionHeading id="stem-sports-heading" eyebrow="Focus area" title="STEM Sports" />
       <p className="m-0 mt-5 font-sans text-base leading-[1.75] text-charcoal">
         STEM, AI, green skills and digital literacy for everyone who was told it was not for
-        them — forces through basketball, gravity through golf, engineering through equipment
-        design, probability through penalty kicks.
+        them — forces through a basketball shot, gravity through a golf swing, probability
+        through a penalty kick, and engineering through designing the equipment itself.
+      </p>
+
+      <p className="m-0 mt-4 font-sans text-base leading-[1.75] text-charcoal">
+        Sport is the way in, not the entry requirement. Disability, inclusion and
+        accessibility are part of the design rather than an add-on, with the Special Teams
+        Players programme running alongside for special education needs — so there is a route
+        in whether someone wants to play, coach, design or analyse.
       </p>
     </Reveal>
 
@@ -106,15 +113,16 @@ export const StemSports = () => (
     <Reveal>
       <blockquote className="m-0 mb-10 rounded-[var(--radius-card)] bg-terracotta p-10 text-ivory">
         <p className="m-0 font-display text-2xl font-medium leading-snug">
-          Disability, Inclusion &amp; Accessibility — Special Education needs and the Special
-          Teams Players programme.
+          Nobody should be watching from the side of a subject they were told was not for
+          them.
         </p>
       </blockquote>
     </Reveal>
 
     <p className="m-0 mb-4 font-sans text-[0.9375rem] leading-[1.7] text-charcoal">
-      Beneficiaries: school-age learners (Year 1–9 plus special education), NEET young people,
-      and adults returning to education.
+      Who it is for: school-age learners in Year 1–9, including those with special education
+      needs; young people not in education, employment or training; and adults coming back to
+      learning.
     </p>
 
     <LinkButton href={PARTNER_LINKS.stemSports} variant="tertiary" external>

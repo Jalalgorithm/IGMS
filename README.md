@@ -35,6 +35,7 @@ src/
 │                      Swoosh, PlaceholderBlock, SkipLink
 ├── features/
 │   ├── landing/       every section of the page + navigation data
+│   ├── easyask/       the four-step self-advocacy modal
 │   ├── waitlist/      form, programme catalogue, mock service, queries
 │   ├── legal/         Termageddon policy pages + Usercentrics consent
 │   └── accessibility/ the floating reader-controls widget
@@ -91,6 +92,39 @@ exercising the real contract.
 The mock persists to `localStorage`, rejects duplicate email addresses with a
 409-shaped field error, and treats any address beginning `fail@` as a server
 error — useful for checking the error path without breaking anything.
+
+---
+
+## EasyAsk
+
+`src/features/easyask/`. The **Open EasyAsk** button in the EasyAsk section
+opens a four-step dialog: pick a context (Work / Doctor / School / Transport,
+with land-sea-air under Transport), answer two questions, check what you wrote,
+then get a short note you can copy or share.
+
+The questions are re-worded per context — a parent writing to a school is asked
+something different from someone preparing for a GP appointment — and the
+wording lives together in `services/easyAskCopy.ts` so it can be reviewed as a
+set. Every question invites a description, never a justification.
+
+The note itself is written by an AI model server-side. Nothing about it is
+templated here; the mock in `services/easyAskApi.ts` is a stand-in for local
+work without a key, and is deliberately plain so it can't be mistaken for the
+real output.
+
+**Nothing is stored, anywhere.** No `localStorage`, no query cache
+(`gcTime: 0`), no Zustand store — the answers live in component state and are
+wiped when the dialog closes. That is not tidiness: the first screen promises
+it, and the answers routinely describe a health need or a disability.
+
+Dictation uses the browser's speech recognition where it exists, and the
+control is hidden entirely where it does not. It only ever runs on an explicit
+press, because on Chrome the audio goes to Google's servers — not something to
+switch on quietly in a tool making that promise.
+
+If the model flags that the answers describe risk of harm rather than an access
+need, the note is still produced but UK support numbers (Samaritans, NHS 111,
+999) appear above it.
 
 ---
 

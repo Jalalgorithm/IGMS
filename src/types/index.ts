@@ -8,3 +8,21 @@ export interface ApiErrorShape {
   fieldErrors?: Record<string, string>;
   status?: number;
 }
+
+/**
+ * What the LaunchPad backend returns for every endpoint. Success payloads are
+ * nested under `data`; failures carry a code and, for validation and conflict
+ * errors, a per-field breakdown under `error.details`.
+ */
+export interface ApiEnvelope<T> {
+  success: boolean;
+  message: string;
+  data: T;
+  meta?: { page: number; limit: number; total: number; totalPages: number };
+}
+
+/** One entry of `error.details` — the backend's per-field error shape. */
+export interface ApiFieldDetail {
+  field: string;
+  message: string;
+}
