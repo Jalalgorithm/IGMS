@@ -46,8 +46,6 @@ export const SiteFooter = () => {
             <p className="m-0 max-w-sm font-sans text-[0.8125rem] leading-relaxed text-ivory/60">
               {ORG.legalName}
               <br />
-              Registered No: {ORG.registeredNumber}
-              <br />
               {ORG.address}
             </p>
 

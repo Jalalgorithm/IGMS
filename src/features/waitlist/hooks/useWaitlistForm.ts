@@ -25,9 +25,9 @@ export const validateWaitlist = (
   const errors: ValidationErrors<WaitlistFormValues> = {};
 
   if (isBlank(values.fullName)) {
-    errors.fullName = 'Enter your name so we know who to contact.';
+    errors.fullName = 'Enter your first name so we know what to call you.';
   } else if (normalise(values.fullName).length < 2) {
-    errors.fullName = 'Enter your full name.';
+    errors.fullName = 'That name looks too short.';
   }
 
   if (isBlank(values.email)) {

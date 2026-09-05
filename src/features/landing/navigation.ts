@@ -31,7 +31,12 @@ export const PARTNER_LINKS = {
 export const ORG = {
   legalName: 'Integrated Global Menospace Solutions CIC',
   shortName: 'IGMS',
-  /** Companies House. A CIC must display this wherever it trades online. */
+  /**
+   * Companies House number. No longer shown in the site footer — removed on
+   * request in favour of the ICO registration below. Kept here because the
+   * two waitlist emails still carry it, and because a CIC is required to
+   * disclose it somewhere it trades online.
+   */
   registeredNumber: '16227437',
   address: 'Office 11436, 182–184 High Street North, East Ham, London E6 2JA, United Kingdom',
   /**

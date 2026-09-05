@@ -32,7 +32,7 @@ export const WaitlistSuccess = ({ entry, onAddAnother }: WaitlistSuccessProps) =
       </span>
       <div>
         <h3 className="m-0 font-display text-2xl font-semibold text-terracotta">
-          You are on the list, {entry.fullName.split(' ')[0]}.
+          You are on the list, {entry.fullName}.
         </h3>
         <p className="m-0 mt-2 font-sans text-base leading-relaxed text-charcoal">
           We have sent a confirmation to <strong>{entry.email}</strong>. We will be in touch

@@ -47,9 +47,9 @@ export const WaitlistForm = () => {
 
       <div className="grid gap-6 border-t border-sand pt-8 sm:grid-cols-2">
         <TextField
-          label="Full name"
+          label="First name"
           name="fullName"
-          autoComplete="name"
+          autoComplete="given-name"
           required
           value={values.fullName}
           onChange={(event) => setField('fullName', event.target.value)}
