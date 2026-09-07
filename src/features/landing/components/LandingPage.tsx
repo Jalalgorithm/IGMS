@@ -31,6 +31,7 @@ export const LandingPage = () => (
       <Hero />
       <Swoosh variant="a" />
       <About />
+      <Partners />
       <FocusAreas />
       <Swoosh variant="b" />
       <DisabilityAccess />
@@ -39,7 +40,6 @@ export const LandingPage = () => (
       <LaunchPad />
       <EasyAsk />
       <Swoosh variant="c" />
-      <Partners />
       <Testimonials />
       <GetInvolved />
       <WaitlistSection />

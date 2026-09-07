@@ -1,21 +1,12 @@
+import poster from '@/assets/images/lift-project-poster.jpg';
 import { Reveal } from '@/components/shared/Reveal';
 import { SectionHeading } from '@/components/shared/SectionHeading';
-import { VideoEmbed } from '@/components/shared/VideoEmbed';
 import { LinkButton } from '@/components/ui/Button';
 import { DownloadLink } from '@/components/ui/DownloadLink';
 import { Tag } from '@/components/ui/Tag';
-import { PrivacySettingsButton } from '@/features/legal/components/PrivacySettingsButton';
 import { PARTNER_LINKS } from '../navigation';
 
 const SETTINGS = ['Health', 'Faith', 'Education', 'Veterans', 'Community', 'Justice'] as const;
-
-/**
- * `dnt=1` asks Vimeo not to track the session — worth having on a site that
- * runs a consent manager, since it keeps the embed defensible before anyone
- * has opted in.
- */
-const VIDEO_EMBED_URL = 'https://player.vimeo.com/video/1216001720?dnt=1';
-const VIDEO_WATCH_URL = 'https://vimeo.com/1216001720';
 
 export const LiftProject = () => (
   <section
@@ -84,16 +75,24 @@ export const LiftProject = () => (
       </Reveal>
 
       <Reveal className="flex flex-col gap-5">
-        <VideoEmbed
-          src={VIDEO_EMBED_URL}
-          title="The Lift Project — programme introduction"
-          fallbackHref={VIDEO_WATCH_URL}
-          consentService="Vimeo"
-        >
-          <span>Hosted on Vimeo. If your cookie choices block third-party embeds it will not appear here.</span>
-          <PrivacySettingsButton tone="light" label="Change cookie settings" className="text-xs" />
-          <span aria-hidden="true">·</span>
-        </VideoEmbed>
+        {/* Supplied as a one-page PDF and rendered to an image, so it shows
+            inline instead of prompting a download. The strapline printed on
+            the poster is repeated as real text below it — an alt attribute is
+            not a substitute for content anyone might want to select or search. */}
+        <figure className="m-0">
+          <img
+            src={poster}
+            alt="Three generations of a family walking hand in hand through woodland, smiling."
+            className="w-full rounded-[var(--radius-card)] object-cover shadow-card hc-outline"
+            loading="lazy"
+            width={1100}
+            height={1424}
+          />
+          <figcaption className="mt-3 font-sans text-[0.9375rem] leading-relaxed text-charcoal">
+            An evidence-based, 10-week adventure designed to help you take charge of your own
+            wellbeing in a fun and simple way.
+          </figcaption>
+        </figure>
 
         <DownloadLink
           href="/documents/the-lift-project-corporate-brochure.pdf"
