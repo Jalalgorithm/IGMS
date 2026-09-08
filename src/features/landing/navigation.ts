@@ -7,6 +7,7 @@ export const NAV_ITEMS: readonly NavItem[] = [
   { targetId: 'lift-project', label: 'The Lift Project' },
   { targetId: 'stem-sports', label: 'STEM Sports' },
   { targetId: 'launchpad', label: 'LaunchPad101' },
+  { targetId: 'easyask', label: 'EasyAsk' },
   { targetId: 'waitlist', label: 'Waitlist' },
 ];
 

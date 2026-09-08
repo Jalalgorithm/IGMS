@@ -8,7 +8,7 @@ import { cn } from '@/utils/classNames';
 import { DONATE_URL, NAV_ITEMS, ORG } from '../navigation';
 
 export const SiteHeader = () => {
-  const isDesktop = useMediaQuery('(min-width: 1024px)');
+  const isDesktop = useMediaQuery('(min-width: 1180px)');
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const navigate = useNavigate();
   const { pathname } = useLocation();
@@ -77,7 +77,7 @@ export const SiteHeader = () => {
         </a>
 
         {isDesktop ? (
-          <nav aria-label="Primary" className="flex items-center gap-8">
+          <nav aria-label="Primary" className="flex items-center gap-6">
             {navLinks}
             <LinkButton href={DONATE_URL} variant="primary" size="sm" external>
               Donate
