@@ -2,13 +2,16 @@ import { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import mark from '@/assets/brand/igms-mark.png';
 import { LinkButton } from '@/components/ui/Button';
+import { NavDropdown } from '@/components/ui/NavDropdown';
 import { useMediaQuery } from '@/hooks/useMediaQuery';
 import { scrollToSection } from '@/utils/scrollToSection';
 import { cn } from '@/utils/classNames';
-import { DONATE_URL, NAV_ITEMS, ORG } from '../navigation';
+import { DONATE_URL, NAV_ENTRIES, NAV_ITEMS, ORG } from '../navigation';
+import { isNavGroup } from '../types';
 
 export const SiteHeader = () => {
-  const isDesktop = useMediaQuery('(min-width: 1180px)');
+  // Back to 1024 now that the bar carries four entries rather than seven.
+  const isDesktop = useMediaQuery('(min-width: 1024px)');
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const navigate = useNavigate();
   const { pathname } = useLocation();
@@ -20,8 +23,7 @@ export const SiteHeader = () => {
     if (isDesktop) setIsMenuOpen(false);
   }, [isDesktop]);
 
-  const handleNavClick = (event: React.MouseEvent<HTMLAnchorElement>, targetId: string): void => {
-    event.preventDefault();
+  const goToSection = (targetId: string): void => {
     setIsMenuOpen(false);
 
     if (isLandingPage) {
@@ -35,16 +37,32 @@ export const SiteHeader = () => {
     window.requestAnimationFrame(() => scrollToSection(targetId));
   };
 
-  const navLinks = NAV_ITEMS.map((item) => (
-    <a
-      key={item.targetId}
-      href={`#${item.targetId}`}
-      onClick={(event) => handleNavClick(event, item.targetId)}
-      className="font-sans text-sm font-medium text-charcoal no-underline transition-colors duration-150 hover:text-terracotta"
-    >
-      {item.label}
-    </a>
-  ));
+  const handleNavClick = (event: React.MouseEvent<HTMLAnchorElement>, targetId: string): void => {
+    event.preventDefault();
+    goToSection(targetId);
+  };
+
+  const navLinks = NAV_ENTRIES.map((entry) =>
+    isNavGroup(entry) ? (
+      <NavDropdown
+        key={entry.id}
+        id={entry.id}
+        label={entry.label}
+        items={entry.children}
+        {...(entry.targetId ? { targetId: entry.targetId } : {})}
+        onNavigate={goToSection}
+      />
+    ) : (
+      <a
+        key={entry.targetId}
+        href={`#${entry.targetId}`}
+        onClick={(event) => handleNavClick(event, entry.targetId)}
+        className="font-sans text-sm font-medium text-charcoal no-underline transition-colors duration-150 hover:text-terracotta"
+      >
+        {entry.label}
+      </a>
+    ),
+  );
 
   return (
     <header className="sticky top-0 z-50 border-b border-charcoal/8 bg-ivory/92 backdrop-blur-md">
@@ -124,7 +142,9 @@ export const SiteHeader = () => {
           aria-label="Primary"
           className={cn(
             'overflow-hidden border-t border-charcoal/8 bg-ivory transition-[max-height] duration-300',
-            isMenuOpen ? 'max-h-96' : 'max-h-0 border-t-0',
+            // Tall enough for the flattened list — every group's children are
+            // listed here rather than hidden behind a nested flyout.
+            isMenuOpen ? 'max-h-[34rem]' : 'max-h-0 border-t-0',
           )}
         >
           <div className="flex flex-col gap-1 px-6 py-4">

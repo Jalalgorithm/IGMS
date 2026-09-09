@@ -46,12 +46,15 @@ export const GetInvolved = () => {
           </Button>
         </Reveal>
 
-        <Reveal className="rounded-[var(--radius-card)] bg-marigold/12 p-9 hc-outline">
+        {/* Addressed directly by "Request access" in the header's Join menu. */}
+        <Reveal
+          id="resources-guidebooks"
+          className="rounded-[var(--radius-card)] bg-marigold/12 p-9 hc-outline"
+        >
           <div className="mb-3 flex min-h-7 items-start justify-between gap-4">
             <p className="m-0 font-display text-xl font-semibold text-terracotta">
               Resources &amp; Guidebooks
             </p>
-            <StatusChip kind="placeholder" />
           </div>
           <p className="m-0 mb-6 font-sans text-[0.9375rem] leading-[1.7] text-charcoal">
             A gated resource library for partners, referrers and participants.

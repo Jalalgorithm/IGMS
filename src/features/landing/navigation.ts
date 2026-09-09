@@ -1,15 +1,47 @@
-import type { NavItem } from './types';
+import { isNavGroup, type NavEntry, type NavItem } from './types';
 
-/** Shared by the header and the footer so the two can never drift apart. */
-export const NAV_ITEMS: readonly NavItem[] = [
+/**
+ * Shared by the header and the footer so the two can never drift apart.
+ *
+ * The three programmes sit under Focus Areas rather than along the bar: seven
+ * top-level links plus a Donate button crowded the header and gave a
+ * programme the same weight as the section describing all of them.
+ */
+export const NAV_ENTRIES: readonly NavEntry[] = [
   { targetId: 'about', label: 'About' },
-  { targetId: 'focus-areas', label: 'Focus Areas' },
-  { targetId: 'lift-project', label: 'The Lift Project' },
-  { targetId: 'stem-sports', label: 'STEM Sports' },
-  { targetId: 'launchpad', label: 'LaunchPad101' },
+  {
+    id: 'nav-focus-areas',
+    label: 'Focus Areas',
+    targetId: 'focus-areas',
+    children: [
+      { targetId: 'lift-project', label: 'The Lift Project' },
+      { targetId: 'stem-sports', label: 'STEM Sports' },
+      { targetId: 'launchpad', label: 'LaunchPad101' },
+    ],
+  },
   { targetId: 'easyask', label: 'EasyAsk' },
-  { targetId: 'waitlist', label: 'Waitlist' },
+  {
+    id: 'nav-join',
+    label: 'Join',
+    children: [
+      { targetId: 'waitlist', label: 'Join the waitlist' },
+      { targetId: 'resources-guidebooks', label: 'Request access' },
+    ],
+  },
 ];
+
+/**
+ * Every destination as one flat list, for the footer and the mobile menu —
+ * a nested flyout inside an already-expanded menu helps nobody.
+ */
+export const NAV_ITEMS: readonly NavItem[] = NAV_ENTRIES.flatMap((entry) =>
+  isNavGroup(entry)
+    ? [
+        ...(entry.targetId ? [{ targetId: entry.targetId, label: entry.label }] : []),
+        ...entry.children,
+      ]
+    : [entry],
+);
 
 /**
  * Donate lives in the header only — never repeated in the footer or between
