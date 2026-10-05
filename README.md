@@ -186,6 +186,17 @@ its gradient. High contrast mode removes the grade entirely.
 
 ---
 
+## Phone numbers and flags
+
+The waitlist phone field pairs a country selector with the number and sends
+E.164 (`+447911123456`). Validation uses `libphonenumber-js` (MIT) in both
+this site and the backend, so the two agree on what a valid number is.
+
+Windows has no flag emoji, so `country-flag-emoji-polyfill` loads a flag-only
+font — self-hosted from `src/assets/fonts/`, never from its default CDN. The
+flag artwork is from [Twemoji](https://github.com/twitter/twemoji), used under
+[CC-BY 4.0](https://creativecommons.org/licenses/by/4.0/).
+
 ## Legal pages and cookie consent
 
 Four Termageddon policies are served at real URLs, because people link to and

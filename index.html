@@ -41,11 +41,12 @@
     <script
       id="usercentrics-cmp"
       src="https://app.usercentrics.eu/browser-ui/latest/loader.js"
-      data-settings-id="Uim9dKjxnujfy-"
+      data-settings-id="%VITE_USERCENTRICS_SETTINGS_ID%"
       async
     ></script>
     <script>
-      uc.setCustomTranslations('https://termageddon.ams3.cdn.digitaloceanspaces.com/translations/');
+      // uc is undefined when an ad blocker stops uc-block; do not throw.
+      if (window.uc) uc.setCustomTranslations('https://termageddon.ams3.cdn.digitaloceanspaces.com/translations/');
     </script>
   </head>
   <body>

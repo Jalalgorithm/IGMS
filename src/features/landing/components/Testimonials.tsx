@@ -19,7 +19,7 @@ export const Testimonials = () => (
       />
     </Reveal>
 
-    <ul className="m-0 grid list-none gap-6 p-0 md:grid-cols-3">
+    <ul className="m-0 grid grid-cols-1 list-none gap-6 p-0 md:grid-cols-3">
       {SLOTS.map((slot) => (
         <li key={slot} className="contents">
           <Reveal className="rounded-[var(--radius-card)] bg-white p-8 shadow-card hc-outline">

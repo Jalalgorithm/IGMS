@@ -20,7 +20,7 @@ import { Testimonials } from './Testimonials';
  *
  *   hero (full bleed) → about (asymmetric collage) → focus areas (card row)
  *   → disability & access (media split) → lift project (tint, calm)
- *   → stem sports (oversized numerals) → launchpad (tint, five-up)
+ *   → stem sports (oversized numerals) → launchpad (tint, poster + six cards)
  *   → easyask (dark panel) → testimonials → get involved → waitlist (tint)
  */
 export const LandingPage = () => (

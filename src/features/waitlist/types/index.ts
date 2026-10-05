@@ -6,6 +6,7 @@ export type ProgrammeId =
   | 'launchpad-school'
   | 'launchpad-veterans'
   | 'launchpad-rise-plus'
+  | 'launchpad-digital-work-ready'
   | 'resources-guidebooks';
 
 export type ProgrammeGroup = 'Wellbeing' | 'STEM' | 'LaunchPad101' | 'Resources';
@@ -29,25 +30,41 @@ export type ApplicantRole =
   | 'partner-organisation'
   | 'other';
 
+/** Channels a visitor has agreed IGMS may use to contact them. */
+export type ContactChannel = 'email' | 'phone' | 'post';
+
+/** How a visitor who gives a number wants it used. */
+export type PhoneMethod = 'call' | 'whatsapp';
+
+import type { CountryCode } from 'libphonenumber-js/min';
+
 export interface WaitlistFormValues {
   fullName: string;
   email: string;
   phone: string;
+  phoneCountry: CountryCode;
+  phoneMethods: PhoneMethod[];
   role: ApplicantRole;
   programmes: ProgrammeId[];
   accessNeeds: string;
-  consent: boolean;
+  contactChannels: ContactChannel[];
 }
 
 /** What the service accepts — normalised, with the empty optionals dropped. */
 export interface WaitlistSubmission {
   fullName: string;
   email: string;
+  /** E.164, e.g. +447700900123. */
   phone?: string;
+  /** Present only alongside `phone`. */
+  phoneMethods?: PhoneMethod[];
   role: ApplicantRole;
   programmes: ProgrammeId[];
   accessNeeds?: string;
+  /** Kept for backend compatibility — always true once channels are chosen. */
   consent: true;
+  /** At least one channel — this is the consent record for contact. */
+  contactChannels: ContactChannel[];
 }
 
 export interface WaitlistEntry {

@@ -32,7 +32,7 @@ export const Hero = () => {
       <Reveal className="on-dark relative z-10 max-w-3xl px-6 text-ivory md:px-12">
         <h1
           id="hero-heading"
-          className="m-0 mb-6 font-display text-[clamp(2.375rem,5.5vw,4.25rem)] font-semibold leading-[1.08] text-ivory"
+          className="m-0 mb-6 font-display text-[clamp(2.375rem,5.5vw,4.25rem)] font-semibold leading-[1.08] text-ivory max-[359px]:text-[1.875rem]"
         >
           The infrastructure inclusion has always deserved.
         </h1>

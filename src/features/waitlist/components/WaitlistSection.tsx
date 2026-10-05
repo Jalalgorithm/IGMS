@@ -1,8 +1,31 @@
-import { useEffect, useRef } from 'react';
+import { lazy, Suspense, useEffect, useRef, useState } from 'react';
+import { Loading } from '@/components/shared/Loading';
 import { Reveal } from '@/components/shared/Reveal';
 import { SectionHeading } from '@/components/shared/SectionHeading';
 import { useWaitlistUiStore } from '@/stores/waitlistUiStore';
-import { WaitlistForm } from './WaitlistForm';
+
+/**
+ * The form carries the phone-number rules for every country (~30 KB gzip),
+ * so it is split out of the first load and fetched once the page is idle —
+ * normally long before anyone scrolls this far.
+ */
+const loadForm = () => import('./WaitlistForm');
+const WaitlistForm = lazy(() => loadForm().then((module) => ({ default: module.WaitlistForm })));
+
+const preloadWhenIdle = () => {
+  // Safari has no requestIdleCallback; a short timeout is close enough there.
+  if (typeof window.requestIdleCallback === 'function') {
+    window.requestIdleCallback(() => void loadForm(), { timeout: 3000 });
+  } else {
+    setTimeout(() => void loadForm(), 1500);
+  }
+};
+
+/** Signals once the lazily loaded form has actually mounted. */
+const MountSignal = ({ onMount }: { onMount: () => void }) => {
+  useEffect(onMount, [onMount]);
+  return null;
+};
 
 /**
  * The waitlist section as it sits on the landing page. Owns the scroll-and-
@@ -12,6 +35,10 @@ export const WaitlistSection = () => {
   const sectionRef = useRef<HTMLElement>(null);
   const requestedFocusAt = useWaitlistUiStore((state) => state.requestedFocusAt);
   const clearFocusRequest = useWaitlistUiStore((state) => state.clearFocusRequest);
+  const [formReady, setFormReady] = useState(false);
+  const markFormReady = useRef(() => setFormReady(true)).current;
+
+  useEffect(preloadWhenIdle, []);
 
   useEffect(() => {
     if (requestedFocusAt === null) return;
@@ -20,9 +47,11 @@ export const WaitlistSection = () => {
 
     const reduced = document.documentElement.dataset['motion'] === 'reduced';
     node.scrollIntoView({ behavior: reduced ? 'auto' : 'smooth', block: 'start' });
+    // If the form is still loading, keep the request until it mounts.
+    if (!formReady) return;
     node.querySelector<HTMLInputElement>('input[name="programmes"]')?.focus();
     clearFocusRequest();
-  }, [requestedFocusAt, clearFocusRequest]);
+  }, [requestedFocusAt, clearFocusRequest, formReady]);
 
   return (
     <section
@@ -46,7 +75,10 @@ export const WaitlistSection = () => {
         </Reveal>
 
         <Reveal>
-          <WaitlistForm />
+          <Suspense fallback={<Loading label="Loading the waitlist form" />}>
+            <WaitlistForm />
+            <MountSignal onMount={markFormReady} />
+          </Suspense>
         </Reveal>
       </div>
     </section>

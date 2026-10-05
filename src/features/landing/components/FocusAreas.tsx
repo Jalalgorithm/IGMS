@@ -33,7 +33,7 @@ const AREAS: readonly FocusArea[] = [
   {
     targetId: 'launchpad',
     label: 'LaunchPad101',
-    summary: 'An inclusive career preparation platform. Five pathways, one platform.',
+    summary: 'An inclusive career preparation platform. Six pathways, one platform.',
     image: launchpad,
     alt: 'Three people laughing together over laptops at a shared table',
   },
@@ -54,7 +54,7 @@ export const FocusAreas = () => (
       />
     </Reveal>
 
-    <ul className="m-0 grid list-none gap-6 p-0 sm:grid-cols-2 xl:grid-cols-4">
+    <ul className="m-0 grid grid-cols-1 list-none gap-6 p-0 sm:grid-cols-2 xl:grid-cols-4">
       {AREAS.map((area) => (
         <li key={area.targetId} className="contents">
           <Reveal className="h-full">

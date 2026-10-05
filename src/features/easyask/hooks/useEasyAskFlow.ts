@@ -1,3 +1,4 @@
+import { cleanText } from '@/utils/validation';
 import { useCallback, useState } from 'react';
 import type { ApiErrorShape } from '@/types';
 import { useShortNoteMutation } from '../services/easyAskQueries';
@@ -42,6 +43,9 @@ export const useEasyAskFlow = (): EasyAskFlow => {
   const [help, setHelp] = useState('');
 
   const mutation = useShortNoteMutation();
+  // The result object is new on every render; `mutate` and `reset` are
+  // stable. Depending on the object made the modal's close-time reset loop.
+  const { mutate, reset: resetMutation } = mutation;
 
   const selectContext = useCallback((next: EasyAskContext) => {
     setContext(next);
@@ -60,16 +64,16 @@ export const useEasyAskFlow = (): EasyAskFlow => {
 
   const generate = useCallback(() => {
     if (!context) return;
-    mutation.mutate(
+    mutate(
       {
         context,
         ...(context === 'transport' && transportMode ? { transportMode } : {}),
-        difficulty: difficulty.trim(),
-        help: help.trim(),
+        difficulty: cleanText(difficulty, true).trim(),
+        help: cleanText(help, true).trim(),
       },
       { onSuccess: () => setStep('note') },
     );
-  }, [context, transportMode, difficulty, help, mutation]);
+  }, [context, transportMode, difficulty, help, mutate]);
 
   const reset = useCallback(() => {
     setStep('context');
@@ -77,8 +81,8 @@ export const useEasyAskFlow = (): EasyAskFlow => {
     setTransportMode(null);
     setDifficulty('');
     setHelp('');
-    mutation.reset();
-  }, [mutation]);
+    resetMutation();
+  }, [resetMutation]);
 
   const canStart = Boolean(context) && (context !== 'transport' || Boolean(transportMode));
   const canConfirm =

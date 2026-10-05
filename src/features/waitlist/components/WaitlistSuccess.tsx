@@ -42,7 +42,7 @@ export const WaitlistSuccess = ({ entry, onAddAnother }: WaitlistSuccessProps) =
       </div>
     </div>
 
-    <dl className="grid gap-5 border-t border-sand pt-6 sm:grid-cols-2">
+    <dl className="grid grid-cols-1 gap-5 border-t border-sand pt-6 sm:grid-cols-2">
       <div>
         <dt className="font-sans text-[0.6875rem] font-semibold uppercase tracking-[0.08em] text-warm-grey">
           Your reference

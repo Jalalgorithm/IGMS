@@ -1,4 +1,5 @@
-import { createBrowserRouter, RouterProvider } from 'react-router-dom';
+import { createBrowserRouter } from 'react-router';
+import { RouterProvider } from 'react-router/dom';
 import { LandingPage } from '@/features/landing';
 import { PolicyPage } from '@/features/legal';
 import { NotFound } from './NotFound';

@@ -1,4 +1,4 @@
-import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router';
 import mark from '@/assets/brand/igms-mark.png';
 // Imported from the legal feature's leaf modules rather than its barrel: the
 // barrel re-exports PolicyPage, which renders this footer, and going through
@@ -92,8 +92,33 @@ export const SiteFooter = () => {
             <PrivacySettingsButton />
           </nav>
 
-          <p className="m-0 font-sans text-xs text-ivory/45">
+          {/* /70 rather than /45: the fainter tint fell below 4.5:1 on charcoal. */}
+          <p className="m-0 font-sans text-xs text-ivory/70">
             &copy; {new Date().getFullYear()} {ORG.legalName}. All rights reserved.
+          </p>
+          {/* Required by CC-BY 4.0 for the self-hosted flag font. */}
+          <p className="m-0 mt-2 font-sans text-xs text-ivory/70">
+            Country flag graphics by{' '}
+            <a
+              href="https://github.com/twitter/twemoji"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-ivory/90 underline underline-offset-2 hover:text-marigold"
+            >
+              Twemoji
+              <span className="sr-only"> (opens in a new tab)</span>
+            </a>
+            , licensed under{' '}
+            <a
+              href="https://creativecommons.org/licenses/by/4.0/"
+              target="_blank"
+              rel="noopener noreferrer license"
+              className="text-ivory/90 underline underline-offset-2 hover:text-marigold"
+            >
+              CC BY 4.0
+              <span className="sr-only"> (opens in a new tab)</span>
+            </a>
+            .
           </p>
         </div>
       </div>

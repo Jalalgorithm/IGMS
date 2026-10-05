@@ -28,7 +28,7 @@ export const GetInvolved = () => {
         <SectionHeading id="get-involved-heading" title="Get involved" />
       </Reveal>
 
-      <div className="mb-5 grid gap-6 md:grid-cols-2">
+      <div className="mb-5 grid grid-cols-1 gap-6 md:grid-cols-2">
         <Reveal className="rounded-[var(--radius-card)] bg-terracotta/8 p-9 hc-outline">
           <div className="mb-3 flex min-h-7 items-start justify-between gap-4">
             <p className="m-0 font-display text-xl font-semibold text-terracotta">

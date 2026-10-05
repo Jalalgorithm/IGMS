@@ -214,3 +214,91 @@ html[data-motion='reduced'] .partner-marquee-track {
     animation: none;
   }
 }
+
+/* Termageddon injects raw policy HTML into .policy-prose; style it to match
+   the site rather than the browser defaults. Unlayered on purpose so it beats
+   any inline-ish defaults the embed ships. */
+.policy-prose {
+  font-family: var(--font-sans);
+  font-size: 1rem;
+  line-height: 1.75;
+  color: var(--color-charcoal);
+  overflow-wrap: anywhere;
+}
+.policy-prose > :first-child {
+  margin-top: 0;
+}
+.policy-prose h1,
+.policy-prose h2,
+.policy-prose h3,
+.policy-prose h4 {
+  font-family: var(--font-display);
+  color: var(--color-charcoal);
+  line-height: 1.25;
+  margin: 2.25em 0 0.75em;
+}
+.policy-prose h1 {
+  font-size: 1.75rem;
+}
+.policy-prose h2 {
+  font-size: 1.375rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--color-sand);
+}
+.policy-prose h3 {
+  font-size: 1.125rem;
+  color: var(--color-terracotta-dark);
+}
+.policy-prose h4 {
+  font-family: var(--font-sans);
+  font-size: 1rem;
+  font-weight: 600;
+}
+.policy-prose p {
+  margin: 0 0 1em;
+  max-width: 70ch;
+}
+.policy-prose ul,
+.policy-prose ol {
+  margin: 0 0 1.25em;
+  padding-left: 1.5em;
+  max-width: 70ch;
+}
+.policy-prose li {
+  margin-bottom: 0.4em;
+}
+.policy-prose li::marker {
+  color: var(--color-terracotta);
+}
+.policy-prose a {
+  color: var(--color-terracotta);
+  font-weight: 500;
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+.policy-prose a:hover {
+  color: var(--color-charcoal);
+}
+.policy-prose strong,
+.policy-prose b {
+  font-weight: 600;
+}
+.policy-prose table {
+  display: block;
+  overflow-x: auto;
+  width: 100%;
+  margin: 0 0 1.5em;
+  border-collapse: collapse;
+  font-size: 0.875rem;
+}
+.policy-prose th,
+.policy-prose td {
+  padding: 0.6em 0.9em;
+  border: 1px solid var(--color-sand);
+  text-align: left;
+  vertical-align: top;
+}
+.policy-prose th {
+  background: var(--color-tint-terracotta);
+  font-weight: 600;
+}

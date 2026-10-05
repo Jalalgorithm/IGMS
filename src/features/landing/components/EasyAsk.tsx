@@ -15,7 +15,7 @@ export const EasyAsk = () => {
     <section
       id="easyask"
       aria-labelledby="easyask-heading"
-      className="mx-auto grid max-w-[80rem] items-center gap-16 px-6 py-24 md:px-12 lg:grid-cols-2 lg:gap-[4.5rem]"
+      className="mx-auto grid grid-cols-1 max-w-[80rem] items-center gap-16 px-6 py-24 md:px-12 lg:grid-cols-2 lg:gap-[4.5rem]"
     >
       <Reveal>
         <SectionHeading id="easyask-heading" title="EasyAsk" adornment={<StatusChip kind="live" />} />

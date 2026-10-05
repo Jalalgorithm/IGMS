@@ -83,7 +83,7 @@ export const PolicyEmbed = ({ embedId, title }: PolicyEmbedProps) => {
       <div
         id={embedId}
         aria-busy={status === 'loading'}
-        className="policy_embed_div font-sans leading-relaxed text-charcoal"
+        className="policy_embed_div policy-prose"
       />
     </>
   );

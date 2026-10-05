@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { Link, useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router';
 import { SiteFooter, SiteHeader } from '@/features/landing';
 import { NotFound } from '@/routes/NotFound';
 import { getPolicy, POLICIES, policyPath } from '../policies';

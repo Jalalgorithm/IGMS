@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router';
 import mark from '@/assets/brand/igms-mark.png';
 import { LinkButton } from '@/components/ui/Button';
 import { NavDropdown } from '@/components/ui/NavDropdown';
@@ -66,7 +66,7 @@ export const SiteHeader = () => {
 
   return (
     <header className="sticky top-0 z-50 border-b border-charcoal/8 bg-ivory/92 backdrop-blur-md">
-      <div className="mx-auto flex max-w-[100rem] items-center justify-between gap-6 px-6 py-3 md:px-10">
+      <div className="mx-auto flex max-w-[100rem] items-center justify-between gap-3 px-4 py-3 sm:gap-6 sm:px-6 md:px-10">
         {/* The supplied lockup sets the wordmark in marigold, which fails
             contrast on ivory (1.9:1), and its strapline is unreadable at
             header size. The mark is paired with real text instead. */}
@@ -84,7 +84,7 @@ export const SiteHeader = () => {
             width={692}
             height={615}
           />
-          <span aria-hidden="true" className="flex flex-col leading-none">
+          <span aria-hidden="true" className="flex flex-col leading-none max-[359px]:hidden">
             <span className="font-display text-xl font-semibold text-terracotta md:text-2xl">
               {ORG.shortName}
             </span>

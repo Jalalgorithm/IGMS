@@ -1,9 +1,16 @@
 import { Button } from '@/components/ui/Button';
-import { Checkbox } from '@/components/ui/Checkbox';
 import { SelectField, TextAreaField, TextField } from '@/components/ui/Field';
 import { Loading } from '@/components/shared/Loading';
 import type { ApplicantRole } from '../types';
-import { useWaitlistForm } from '../hooks/useWaitlistForm';
+import {
+  ACCESS_NEEDS_MAX,
+  EMAIL_MAX,
+  NAME_MAX,
+  useWaitlistForm,
+} from '../hooks/useWaitlistForm';
+import { ContactConsent } from './ContactConsent';
+import { PhoneField } from './PhoneField';
+import { PhoneMethodPicker } from './PhoneMethodPicker';
 import { ProgrammePicker } from './ProgrammePicker';
 import { WaitlistSuccess } from './WaitlistSuccess';
 
@@ -25,6 +32,8 @@ export const WaitlistForm = () => {
     setField,
     markTouched,
     toggleProgramme,
+    toggleContactChannel,
+    togglePhoneMethod,
     handleSubmit,
     reset,
   } = useWaitlistForm();
@@ -37,7 +46,7 @@ export const WaitlistForm = () => {
     <form
       onSubmit={handleSubmit}
       noValidate
-      className="flex flex-col gap-8 rounded-[var(--radius-card)] bg-white p-8 shadow-card hc-outline sm:p-10"
+      className="flex flex-col gap-8 rounded-[var(--radius-card)] bg-white p-5 shadow-card hc-outline sm:p-10"
     >
       <ProgrammePicker
         selected={values.programmes}
@@ -45,11 +54,12 @@ export const WaitlistForm = () => {
         error={visibleErrors.programmes}
       />
 
-      <div className="grid gap-6 border-t border-sand pt-8 sm:grid-cols-2">
+      <div className="grid grid-cols-1 gap-6 border-t border-sand pt-8 sm:grid-cols-2">
         <TextField
           label="First name"
           name="fullName"
           autoComplete="given-name"
+          maxLength={NAME_MAX}
           required
           value={values.fullName}
           onChange={(event) => setField('fullName', event.target.value)}
@@ -63,6 +73,7 @@ export const WaitlistForm = () => {
           type="email"
           inputMode="email"
           autoComplete="email"
+          maxLength={EMAIL_MAX}
           required
           value={values.email}
           onChange={(event) => setField('email', event.target.value)}
@@ -70,18 +81,23 @@ export const WaitlistForm = () => {
           error={visibleErrors.email}
         />
 
-        <TextField
-          label="Phone number"
-          name="phone"
-          type="tel"
-          inputMode="tel"
-          autoComplete="tel"
-          value={values.phone}
-          onChange={(event) => setField('phone', event.target.value)}
-          onBlur={() => markTouched('phone')}
-          error={visibleErrors.phone}
-          hint="Only if you would rather we called."
-        />
+        <div className="flex flex-col gap-4">
+          <PhoneField
+            country={values.phoneCountry}
+            number={values.phone}
+            onCountryChange={(country) => setField('phoneCountry', country)}
+            onNumberChange={(value) => setField('phone', value)}
+            onBlur={() => markTouched('phone')}
+            error={visibleErrors.phone}
+            hint="Only if you wish a DBS Enhanced IGMS staff member to contact you."
+          />
+          <PhoneMethodPicker
+            selected={values.phoneMethods}
+            onToggle={togglePhoneMethod}
+            onBlur={() => markTouched('phoneMethods')}
+            error={visibleErrors.phoneMethods}
+          />
+        </div>
 
         <SelectField
           label="How are you joining?"
@@ -97,6 +113,8 @@ export const WaitlistForm = () => {
           <TextAreaField
             label="Any access requirements we should know about?"
             name="accessNeeds"
+            maxLength={ACCESS_NEEDS_MAX}
+            error={visibleErrors.accessNeeds}
             value={values.accessNeeds}
             onChange={(event) => setField('accessNeeds', event.target.value)}
             hint="Interpreters, step-free access, quiet spaces, large print, someone to attend with you — tell us in your own words and we will work it out with you."
@@ -106,13 +124,11 @@ export const WaitlistForm = () => {
       </div>
 
       <div className="flex flex-col gap-6 border-t border-sand pt-8">
-        <Checkbox
-          name="consent"
-          checked={values.consent}
-          onChange={(event) => setField('consent', event.target.checked)}
-          onBlur={() => markTouched('consent')}
-          error={visibleErrors.consent}
-          label="I am happy for IGMS to contact me about the programmes I have chosen. We will not pass your details to anyone else, and you can ask us to remove them at any time."
+        <ContactConsent
+          selected={values.contactChannels}
+          onToggle={toggleContactChannel}
+          onBlur={() => markTouched('contactChannels')}
+          error={visibleErrors.contactChannels}
         />
 
         {submitError ? (

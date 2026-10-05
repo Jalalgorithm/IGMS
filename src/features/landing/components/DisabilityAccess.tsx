@@ -14,7 +14,7 @@ export const DisabilityAccess = () => (
   <section
     id="disability-access"
     aria-labelledby="disability-access-heading"
-    className="mx-auto grid max-w-[80rem] items-center gap-16 px-6 pb-32 md:px-12 lg:grid-cols-2 lg:gap-[4.5rem]"
+    className="mx-auto grid grid-cols-1 max-w-[80rem] items-center gap-16 px-6 pb-32 md:px-12 lg:grid-cols-2 lg:gap-[4.5rem]"
   >
     <Reveal className="overflow-hidden rounded-[var(--radius-card)] shadow-lifted">
       <img

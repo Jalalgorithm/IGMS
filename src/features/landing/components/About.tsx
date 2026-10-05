@@ -30,7 +30,7 @@ export const About = () => (
     aria-labelledby="about-heading"
     className="mx-auto max-w-[80rem] px-6 pb-32 md:px-12"
   >
-    <div className="grid items-center gap-16 lg:grid-cols-2 lg:gap-[4.5rem]">
+    <div className="grid grid-cols-1 items-center gap-16 lg:grid-cols-2 lg:gap-[4.5rem]">
       {/* Asymmetric collage — deliberately not a tidy grid, so this section
           cannot be mistaken for the card rows further down the page. */}
       <Reveal className="relative min-h-[32.5rem] hidden lg:block">
@@ -71,7 +71,7 @@ export const About = () => (
       </Reveal>
 
       {/* Stacked images on small screens, where the overlap would collapse. */}
-      <div className="grid gap-4 sm:grid-cols-2 lg:hidden">
+      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:hidden">
         <img
           src={collaboration}
           alt="Four colleagues talking around a table with a tablet in a bright café"
@@ -123,7 +123,7 @@ export const About = () => (
         into the right-hand column would have made an already tall block
         taller, and buried the two statements the organisation is defined by. */}
     <Reveal className="mt-24 border-t-[3px] border-marigold pt-12">
-      <div className="grid gap-12 md:grid-cols-2 md:gap-16">
+      <div className="grid grid-cols-1 gap-12 md:grid-cols-2 md:gap-16">
         <div>
           <h3 className="m-0 mb-4 font-sans text-[0.6875rem] font-semibold uppercase tracking-[0.12em] text-warm-grey">
             Mission

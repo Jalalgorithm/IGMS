@@ -58,7 +58,7 @@ export const StemSports = () => (
 
     {/* Oversized numerals — the one place on the page where the number, not
         the sentence, is the thing being read. */}
-    <ul className="m-0 mb-14 grid list-none gap-6 p-0 sm:grid-cols-3">
+    <ul className="m-0 mb-14 grid grid-cols-1 list-none gap-6 p-0 sm:grid-cols-3">
       {STATS.map((stat) => (
         <li key={stat.value} className="contents">
           <Reveal className="rounded-[var(--radius-card)] bg-white px-4 py-8 text-center shadow-card hc-outline">
@@ -81,7 +81,7 @@ export const StemSports = () => (
       Zero specialist training needed for facilitators.
     </p>
 
-    <div className="mb-14 grid items-center gap-8 lg:grid-cols-[1.6fr_1fr]">
+    <div className="mb-14 grid grid-cols-1 items-center gap-8 lg:grid-cols-[1.6fr_1fr]">
       <Reveal>
         <VideoEmbed
           src={VIDEO_EMBED_URL}

@@ -56,6 +56,13 @@ export const PROGRAMMES: readonly Programme[] = [
     availability: 'coming-soon',
   },
   {
+    id: 'launchpad-digital-work-ready',
+    name: 'Digital Work Ready',
+    audience: 'Refugees and people seeking asylum preparing for work in the UK',
+    group: 'LaunchPad101',
+    availability: 'coming-soon',
+  },
+  {
     id: 'resources-guidebooks',
     name: 'Resources & Guidebooks',
     audience: 'Partners, referrers and participants',

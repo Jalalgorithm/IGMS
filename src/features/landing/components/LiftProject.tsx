@@ -14,7 +14,7 @@ export const LiftProject = () => (
     aria-labelledby="lift-project-heading"
     className="bg-terracotta/8 px-6 py-24 md:px-12"
   >
-    <div className="mx-auto grid max-w-[80rem] items-start gap-16 lg:grid-cols-[1.1fr_0.9fr] lg:gap-[4.5rem]">
+    <div className="mx-auto grid grid-cols-1 max-w-[80rem] items-start gap-16 lg:grid-cols-[1.1fr_0.9fr] lg:gap-[4.5rem]">
       <Reveal>
         <SectionHeading
           id="lift-project-heading"
