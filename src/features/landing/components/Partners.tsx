@@ -1,4 +1,5 @@
 import communityFund from '@/assets/partners/community-fund.png';
+import menopauseExperts from '@/assets/partners/menopause-experts.png';
 import londonsLifelines from '@/assets/partners/londons-lifelines.png';
 import nordVpn from '@/assets/partners/nordvpn.png';
 import philanthropunks from '@/assets/partners/philanthropunks.png';
@@ -25,6 +26,7 @@ const PARTNERS: readonly Partner[] = [
   { name: 'The Lift Project', image: theLiftProject, surface: '#1D475D' },
   { name: 'Refugee Employment Network', image: refugeeEmploymentNetwork, surface: '#000000' },
   { name: 'NordVPN', image: nordVpn, surface: '#EFF8FF' },
+  { name: 'Menopause Experts', image: menopauseExperts },
 ];
 
 interface PartnerLogosProps {

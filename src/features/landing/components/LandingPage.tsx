@@ -30,8 +30,8 @@ export const LandingPage = () => (
     <main id="main" tabIndex={-1}>
       <Hero />
       <Swoosh variant="a" />
-      <About />
       <Partners />
+      <About />
       <FocusAreas />
       <Swoosh variant="b" />
       <DisabilityAccess />

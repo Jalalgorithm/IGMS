@@ -1,0 +1,253 @@
+# Every push to main builds the IGMS site and deploys it straight to
+# production on IONOS shared hosting. Can also be run by hand from the
+# Actions tab. Adapted from the alotel guest-site pipeline.
+#
+# Uploads the build over SSH into a releases folder outside the document root,
+# publishes it (deploy/activate.sh), smoke-tests the live site and rolls back
+# automatically if the test fails.
+#
+# GitHub secrets (Settings → Secrets and variables → Actions):
+#   Build (all public values — they end up in the site anyway):
+#     VITE_API_URL                     https://… (required)
+#     VITE_USERCENTRICS_SETTINGS_ID    required, or the build stops
+#     VITE_DONATE_URL, VITE_CONTACT_EMAIL                         optional
+#     VITE_TERMAGEDDON_{PRIVACY,TERMS,DISCLAIMER,COOKIES}_ID      optional
+#   Deploy:
+#     SSH_HOST, SSH_USER, SSH_KEY, KNOWN_HOSTS, SSH_PORT (optional, 22)
+#     SITE_URL         https://yourdomain.co.uk
+#     DEPLOY_PATH      absolute path of the domain's folder on the webspace
+#     RELEASES_PATH    optional, defaults to DEPLOY_PATH + "-releases"
+
+name: Deploy production
+
+on:
+  push:
+    branches: [main]
+    paths-ignore: ['**.md']
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: deploy-production
+  cancel-in-progress: false
+
+env:
+  KEEP_RELEASES: '5'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    outputs:
+      entry-asset: ${{ steps.entry.outputs.asset }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+
+      - run: npm ci --no-audit --no-fund
+      - run: npm run typecheck
+      - run: npm audit --omit=dev --audit-level=high
+
+      - name: Check build secrets
+        env:
+          API_URL: ${{ secrets.VITE_API_URL }}
+          UC_ID: ${{ secrets.VITE_USERCENTRICS_SETTINGS_ID }}
+        run: |
+          [ -n "$API_URL" ] || { echo "::error::Secret VITE_API_URL is not set."; exit 1; }
+          case "$API_URL" in https://*) ;; *) echo "::error::VITE_API_URL must start with https://"; exit 1;; esac
+          [ -n "$UC_ID" ] || { echo "::error::Secret VITE_USERCENTRICS_SETTINGS_ID is not set."; exit 1; }
+
+      - name: Build
+        run: npm run build
+        env:
+          VITE_USE_MOCK_API: 'false'
+          VITE_API_URL: ${{ secrets.VITE_API_URL }}
+          VITE_USERCENTRICS_SETTINGS_ID: ${{ secrets.VITE_USERCENTRICS_SETTINGS_ID }}
+          VITE_DONATE_URL: ${{ secrets.VITE_DONATE_URL }}
+          VITE_CONTACT_EMAIL: ${{ secrets.VITE_CONTACT_EMAIL }}
+          VITE_TERMAGEDDON_PRIVACY_ID: ${{ secrets.VITE_TERMAGEDDON_PRIVACY_ID }}
+          VITE_TERMAGEDDON_TERMS_ID: ${{ secrets.VITE_TERMAGEDDON_TERMS_ID }}
+          VITE_TERMAGEDDON_DISCLAIMER_ID: ${{ secrets.VITE_TERMAGEDDON_DISCLAIMER_ID }}
+          VITE_TERMAGEDDON_COOKIES_ID: ${{ secrets.VITE_TERMAGEDDON_COOKIES_ID }}
+
+      - name: Check build output
+        id: entry
+        run: |
+          # Source maps are useful locally but must not be published.
+          find dist -name '*.map' -delete
+          test -f dist/index.html || { echo "::error::dist/index.html was not produced."; exit 1; }
+          test -f dist/.htaccess  || { echo "::error::dist/.htaccess is missing; deep links would 404."; exit 1; }
+          # The mock stores personal data in the browser; it must never ship.
+          if grep -rq 'igms.waitlist.entries' dist/assets; then echo "::error::The mock waitlist is in the build."; exit 1; fi
+          asset="$(grep -o '/assets/index-[A-Za-z0-9_-]*\.js' dist/index.html | head -n 1)"
+          test -n "$asset" || { echo "::error::Could not find the entry script in dist/index.html."; exit 1; }
+          echo "asset=$asset" >> "$GITHUB_OUTPUT"
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: dist
+          path: dist/
+          include-hidden-files: true   # keeps .htaccess
+          if-no-files-found: error
+          retention-days: 7
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    environment: production
+    env:
+      SITE_URL: ${{ secrets.SITE_URL }}
+      ENTRY_ASSET: ${{ needs.build.outputs.entry-asset }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          sparse-checkout: deploy
+
+      - name: Check deploy configuration
+        env:
+          SSH_HOST: ${{ secrets.SSH_HOST }}
+          SSH_USER: ${{ secrets.SSH_USER }}
+          SSH_KEY: ${{ secrets.SSH_KEY }}
+          KNOWN_HOSTS: ${{ secrets.KNOWN_HOSTS }}
+          SSH_PORT: ${{ secrets.SSH_PORT }}
+          DEPLOY_PATH: ${{ secrets.DEPLOY_PATH }}
+          RELEASES_PATH: ${{ secrets.RELEASES_PATH }}
+        run: |
+          trim() { printf '%s' "$1" | tr -d '\r' | sed -e 's/^[[:space:]]*//' -e 's/[[:space:]]*$//'; }
+          host="$(trim "$SSH_HOST")"; user="$(trim "$SSH_USER")"; port="$(trim "${SSH_PORT:-22}")"
+          site="$(trim "$DEPLOY_PATH")"; site="${site%/}"
+          releases="$(trim "$RELEASES_PATH")"; releases="${releases%/}"
+          [ -n "$releases" ] || releases="${site}-releases"
+
+          fail=""
+          [ -n "$host" ]        || fail="$fail\n- secret SSH_HOST is not set"
+          [ -n "$user" ]        || fail="$fail\n- secret SSH_USER is not set"
+          [ -n "$SSH_KEY" ]     || fail="$fail\n- secret SSH_KEY is not set"
+          [ -n "$KNOWN_HOSTS" ] || fail="$fail\n- secret KNOWN_HOSTS is not set"
+          [ -n "$site" ]        || fail="$fail\n- secret DEPLOY_PATH is not set"
+          [ -n "$SITE_URL" ]    || fail="$fail\n- secret SITE_URL is not set"
+          case "$host" in *[[:space:]@]*) fail="$fail\n- SSH_HOST must be a bare hostname";; esac
+          case "$user" in *[[:space:]@]*) fail="$fail\n- SSH_USER must be just the username";; esac
+          case "$port" in ''|*[!0-9]*)    fail="$fail\n- SSH_PORT must be a number";; esac
+          for p in "$site" "$releases"; do
+            case "$p" in /*) ;; *) fail="$fail\n- '$p' must be an absolute path";; esac
+            case "$p" in *[[:space:]\'\"]*) fail="$fail\n- '$p' must not contain spaces or quotes";; esac
+          done
+          case "$releases/" in "$site"/*) fail="$fail\n- RELEASES_PATH must be outside the document root";; esac
+          if [ -n "$fail" ]; then
+            printf '%b\n' "$fail" | sed '/^$/d' | while read -r line; do echo "::error::${line#- }"; done
+            exit 1
+          fi
+          {
+            echo "SSH_HOST=$host"; echo "SSH_USER=$user"; echo "SSH_PORT=$port"
+            echo "SITE_DIR=$site"; echo "RELEASES_DIR=$releases"
+          } >> "$GITHUB_ENV"
+
+      - uses: actions/download-artifact@v4
+        with:
+          name: dist
+          path: dist
+
+      - name: Configure SSH
+        env:
+          SSH_KEY: ${{ secrets.SSH_KEY }}
+          KNOWN_HOSTS: ${{ secrets.KNOWN_HOSTS }}
+        run: |
+          install -d -m 700 ~/.ssh
+          printf '%s\n' "$SSH_KEY" | tr -d '\r' > ~/.ssh/deploy_key
+          printf '%s\n' "$KNOWN_HOSTS" | tr -d '\r' > ~/.ssh/known_hosts
+          chmod 600 ~/.ssh/deploy_key ~/.ssh/known_hosts
+          cat > ~/.ssh/config <<EOF
+          Host deploy
+            HostName $SSH_HOST
+            User $SSH_USER
+            Port $SSH_PORT
+            IdentityFile ~/.ssh/deploy_key
+            IdentitiesOnly yes
+            BatchMode yes
+            StrictHostKeyChecking yes
+            UserKnownHostsFile ~/.ssh/known_hosts
+            ConnectTimeout 20
+            ServerAliveInterval 15
+          EOF
+          chmod 600 ~/.ssh/config
+          ssh deploy 'echo "Connected as $(whoami)"'
+
+      - name: Upload release
+        id: upload
+        run: |
+          release="$(date -u +%Y%m%d%H%M%S)-${GITHUB_SHA::7}"
+          echo "release=$release" >> "$GITHUB_OUTPUT"
+          # shellcheck disable=SC2029
+          tar -czf - -C dist . | ssh deploy "set -e
+            mkdir -p '$RELEASES_DIR/$release' '$RELEASES_DIR/.bin'
+            tar -xzf - -C '$RELEASES_DIR/$release'
+            chmod -R a+rX '$RELEASES_DIR/$release'"
+          ssh deploy "cat > '$RELEASES_DIR/.bin/activate.sh'" < deploy/activate.sh
+
+      - name: Publish release
+        id: activate
+        env:
+          RELEASE: ${{ steps.upload.outputs.release }}
+        run: |
+          out="$(ssh deploy bash -s -- "$SITE_DIR" "$RELEASES_DIR" "$RELEASE" < deploy/activate.sh)"
+          echo "$out"
+          previous="$(printf '%s\n' "$out" | sed -n 's/^PREVIOUS=//p' | tail -n 1)"
+          echo "previous=$previous" >> "$GITHUB_OUTPUT"
+
+      - name: Smoke test
+        run: |
+          base_url="${SITE_URL%/}"
+          fetch() { curl -sS -L --max-time 20 -H 'Cache-Control: no-cache' -D "$3" -o "$2" -w '%{http_code}' "$1" || echo 000; }
+
+          check() {
+            code="$(fetch "$base_url/?deploy=$GITHUB_SHA" page.html head.txt)"
+            [ "$code" = 200 ] || { echo "Home page returned HTTP $code"; return 1; }
+            grep -qF "$ENTRY_ASSET" page.html || { echo "Home page does not reference $ENTRY_ASSET"; return 1; }
+            grep -qi '^x-content-type-options: *nosniff' head.txt || { echo "Security headers missing; is .htaccess applied?"; return 1; }
+
+            code="$(fetch "$base_url$ENTRY_ASSET" entry.js /dev/null)"
+            if [ "$code" != 200 ] || [ ! -s entry.js ]; then echo "Entry script returned HTTP $code"; return 1; fi
+
+            # A route that exists only inside the app proves the .htaccess fallback.
+            code="$(fetch "$base_url/privacy-policy?deploy=$GITHUB_SHA" policy.html /dev/null)"
+            [ "$code" = 200 ] || { echo "Deep link /privacy-policy returned HTTP $code"; return 1; }
+            grep -qF "$ENTRY_ASSET" policy.html || { echo "Deep link did not serve the site"; return 1; }
+
+            code="$(fetch "$base_url/.htaccess" /dev/null /dev/null)"
+            [ "$code" = 403 ] || [ "$code" = 404 ] || { echo "/.htaccess returned HTTP $code; it must be blocked"; return 1; }
+          }
+
+          for attempt in 1 2 3 4 5 6; do
+            if check; then echo "Smoke test passed on attempt $attempt."; exit 0; fi
+            echo "Attempt $attempt failed; retrying in 5s..."
+            sleep 5
+          done
+          echo "::error::Smoke test failed against $base_url"
+          exit 1
+
+      - name: Roll back
+        if: failure() && steps.activate.outcome == 'success'
+        env:
+          PREVIOUS: ${{ steps.activate.outputs.previous }}
+        run: |
+          if [ -z "$PREVIOUS" ]; then
+            echo "::error::First deploy, so there is no earlier release to return to. The failing release is still live."
+            exit 1
+          fi
+          ssh deploy bash -s -- "$SITE_DIR" "$RELEASES_DIR" "$PREVIOUS" < deploy/activate.sh
+          echo "::error::Rolled back to $PREVIOUS."
+
+      - name: Clean up old files
+        if: success()
+        env:
+          RELEASE: ${{ steps.upload.outputs.release }}
+          PREVIOUS: ${{ steps.activate.outputs.previous }}
+        run: ssh deploy "bash -s -- $(printf '%q ' "$SITE_DIR" "$RELEASES_DIR" "$RELEASE" "$PREVIOUS" "$KEEP_RELEASES")" < deploy/cleanup.sh

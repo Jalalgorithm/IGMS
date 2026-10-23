@@ -1,3 +1,4 @@
+import disabilityConfident from '@/assets/brand/dc-badge.png';
 import heroImage from '@/assets/images/hero-community.jpg';
 import { Button } from '@/components/ui/Button';
 import { Reveal } from '@/components/shared/Reveal';
@@ -32,22 +33,22 @@ export const Hero = () => {
       <Reveal className="on-dark relative z-10 max-w-3xl px-6 text-ivory md:px-12">
         <h1
           id="hero-heading"
-          className="m-0 mb-6 font-display text-[clamp(2.375rem,5.5vw,4.25rem)] font-semibold leading-[1.08] text-ivory max-[359px]:text-[1.875rem]"
+          className="m-0 mb-6 font-display text-[clamp(1.875rem,4vw,3.25rem)] font-semibold leading-[1.1] text-ivory"
         >
           The infrastructure inclusion has always deserved.
         </h1>
 
-        <p className="m-0 mb-7 max-w-xl font-sans text-[1.1875rem] leading-relaxed text-ivory/92">
+        <p className="m-0 mb-7 max-w-xl font-sans text-[clamp(1rem,1.4vw,1.0625rem)] leading-relaxed text-ivory/92">
           Digital innovation solutions and community programmes, co-created with lived
           experience, measured by real change.
         </p>
 
-        <p className="m-0 mb-9 max-w-xl font-display text-[1.3125rem] font-medium leading-relaxed text-marigold">
+        <p className="m-0 mb-9 max-w-xl font-display text-[clamp(1.0625rem,1.6vw,1.1875rem)] font-medium leading-relaxed text-marigold">
           Dignity restored. Futures built. Real opportunity, real inclusion, real access — we
           help reduce isolation, for everyone.
         </p>
 
-        <div className="flex flex-wrap gap-4">
+        <div className="mt-8 flex flex-wrap gap-4 md:mt-16">
           <Button size="lg" onClick={() => requestWaitlistFocus()}>
             Join the waitlist
           </Button>
@@ -58,6 +59,18 @@ export const Hero = () => {
           >
             See our focus areas
           </Button>
+        </div>
+
+        {/* The badge artwork has dark text on a transparent ground, so it sits
+            on a white chip to stay legible over the photo. */}
+        <div className="mt-6 inline-flex rounded-xl bg-white px-3 py-2 shadow-card">
+          <img
+            src={disabilityConfident}
+            alt="Disability Confident Committed employer"
+            width={500}
+            height={241}
+            className="h-11 w-auto sm:h-12"
+          />
         </div>
       </Reveal>
 

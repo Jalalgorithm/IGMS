@@ -19,6 +19,10 @@ const PRINCIPLES = [
     body: 'outcomes we track and report, not just activity.',
   },
   {
+    lead: 'Building missing data',
+    body: 'anonymised insight on under-researched groups.',
+  },
+  {
     lead: 'Reducing isolation',
     body: 'for disabled people, veterans, NEET young people, and anyone locked out of opportunity.',
   },
@@ -96,10 +100,15 @@ export const About = () => (
           title="Community programmes built with the people they serve."
         />
 
-        <p className="m-0 mb-8 mt-6 max-w-lg font-sans text-[1.0625rem] leading-[1.7] text-charcoal">
+        <p className="m-0 mb-5 mt-6 max-w-lg font-sans text-[1.0625rem] leading-[1.7] text-charcoal">
           IGMS designs digital tools and community programmes across disability &amp; access,
           wellbeing, STEM education, and employability — shaped with the people who use them,
           not for them.
+        </p>
+
+        <p className="m-0 mb-8 max-w-lg font-sans text-[1.0625rem] leading-[1.7] text-charcoal">
+          For women in midlife, we create <strong className="font-semibold">“SPACES”</strong>:
+          safe places to rest, learn and get support.
         </p>
 
         <ul className="m-0 flex list-none flex-col gap-5 p-0">

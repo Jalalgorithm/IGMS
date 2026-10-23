@@ -64,12 +64,7 @@ export const PARTNER_LINKS = {
 export const ORG = {
   legalName: 'Integrated Global Menospace Solutions CIC',
   shortName: 'IGMS',
-  /**
-   * Companies House number. No longer shown in the site footer — removed on
-   * request in favour of the ICO registration below. Kept here because the
-   * two waitlist emails still carry it, and because a CIC is required to
-   * disclose it somewhere it trades online.
-   */
+  /** Companies House number — shown in the footer and the waitlist emails. */
   registeredNumber: '16227437',
   address: 'Office 11436, 182–184 High Street North, East Ham, London E6 2JA, United Kingdom',
   /**
@@ -81,3 +76,25 @@ export const ORG = {
   /** Deep link to the register entry, not the ICO homepage: it verifies in one click. */
   icoRegisterUrl: 'https://ico.org.uk/ESDWebPages/Entry/ZB971396',
 } as const;
+
+/**
+ * The Nigerian sister organisation, a company limited by guarantee. Fields
+ * left null are still pending with the client; the footer says so rather than
+ * printing a placeholder or linking nowhere.
+ */
+export const ORG_NG = {
+  legalName: 'Integrated Global Menospace Solutions LBG',
+  shortName: 'IGMS-LBG',
+  rcNumber: '8736311',
+  lagosAddress: null as string | null,
+  whatsappNumber: '+234 809 688 8555',
+  whatsappUrl: 'https://wa.me/2348096888555',
+  email: 'hello@igms-lbg.org.ng',
+  websiteUrl: 'https://www.igms-lbg.org.ng',
+  websiteLabel: 'www.igms-lbg.org.ng',
+  ndpcNumber: null as string | null,
+  privacyPolicyUrl: null as string | null,
+  healthApproval: 'LSMH/HCH/073/Vol. II/15',
+  healthApprovalDate: 'April 2025',
+  hefamaaAccreditation: null as string | null,
+};

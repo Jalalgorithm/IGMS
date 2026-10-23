@@ -1,4 +1,6 @@
 export type ProgrammeId =
+  | 'thrive-forward'
+  | 'thrive-forward-guidebook'
   | 'lift-project'
   | 'stem-sports'
   | 'launchpad-adult'
@@ -9,7 +11,12 @@ export type ProgrammeId =
   | 'launchpad-digital-work-ready'
   | 'resources-guidebooks';
 
-export type ProgrammeGroup = 'Wellbeing' | 'STEM' | 'LaunchPad101' | 'Resources';
+export type ProgrammeGroup =
+  | 'Wellbeing'
+  | 'STEM'
+  | 'LaunchPad101'
+  | 'Resources'
+  | 'Thrive Forward';
 
 export type ProgrammeAvailability = 'open' | 'coming-soon';
 

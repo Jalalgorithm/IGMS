@@ -35,8 +35,8 @@
     <!-- Usercentrics consent management (Termageddon).
          uc-block must load before the CMP so third-party tags stay blocked
          until the visitor has actually chosen. Do not defer it. -->
-    <link rel="preconnect" href="//privacy-proxy.usercentrics.eu" />
-    <link rel="preload" href="//privacy-proxy.usercentrics.eu/latest/uc-block.bundle.js" as="script" />
+    <link rel="preconnect" href="https://privacy-proxy.usercentrics.eu" />
+    <link rel="preload" href="https://privacy-proxy.usercentrics.eu/latest/uc-block.bundle.js" as="script" />
     <script type="application/javascript" src="https://privacy-proxy.usercentrics.eu/latest/uc-block.bundle.js"></script>
     <script
       id="usercentrics-cmp"
@@ -44,10 +44,7 @@
       data-settings-id="%VITE_USERCENTRICS_SETTINGS_ID%"
       async
     ></script>
-    <script>
-      // uc is undefined when an ad blocker stops uc-block; do not throw.
-      if (window.uc) uc.setCustomTranslations('https://termageddon.ams3.cdn.digitaloceanspaces.com/translations/');
-    </script>
+    <script src="/uc-translations.js"></script>
   </head>
   <body>
     <div id="root"></div>

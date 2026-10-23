@@ -1,3 +1,5 @@
+import thriveMark from '@/assets/images/thrive-forward-mark.png';
+import thriveVideoPoster from '@/assets/images/thrive-forward-video-poster.jpg';
 import poster from '@/assets/images/launchpad-digital-work-poster.jpg';
 import { Reveal } from '@/components/shared/Reveal';
 import { SectionHeading } from '@/components/shared/SectionHeading';
@@ -8,6 +10,19 @@ import { useWaitlistUiStore } from '@/stores/waitlistUiStore';
 import { scrollToSection } from '@/utils/scrollToSection';
 import type { ProgrammeId } from '@/features/waitlist';
 import type { PathwayCard } from '../types';
+
+/** Matches the captions in public/media/thrive-forward-guide.en.vtt. */
+const TRANSCRIPT = [
+  'How to use your Thrive Forward Guide. This guide was made for you. You can read it alone, with a mentor, or in a group.',
+  'Two topics we cover: what is inside your guidebook, and how to use it to rebuild confidence and find work.',
+  'Discussion points. Your skills matter. CV support. Interview practice. Wellbeing first. Peer mentoring, and digital skills and safety.',
+  '“My qualifications are from another country. Can this still help me?” “I don’t have perfect English. Is this guide still for me?”',
+  'Yes, this guide is built around your journey. It includes CV help for overseas qualifications, multilingual phrases, and support for every step.',
+  '“I have been out of work for a long time. I don’t know how to explain the gap in my CV.”',
+  'Possible approaches. Section 3 of the guide helps you frame employment gaps honestly and confidently for UK employers. LaunchPad (coming soon) includes AI interview practice, so you can build confidence before the real thing. Your peer mentor can help you tell your professional story.',
+  'Your journey is your strength, not a weakness. Quick facts: available in Arabic, Somali, Tigrinya, Yoruba and French. Free on any phone, tablet, or printed copy.',
+  'You are not starting from zero. You bring wisdom, strength, and great potential. Thrive Forward walks with you every step of the way.',
+] as const;
 
 /** Order is fixed by the brief and mirrors the waitlist catalogue. */
 const PATHWAYS: ReadonlyArray<PathwayCard & { programmeId: ProgrammeId }> = [
@@ -61,6 +76,103 @@ export const LaunchPad = () => {
                 None of the six is open yet. Choose the one that fits and we will tell you the
                 day it launches.
               </p>
+            </Reveal>
+
+            {/* Thrive Forward is open now, unlike the six pathways, so it sits
+                in the space beside the poster with its own download. */}
+            <Reveal className="mt-10 flex flex-col gap-5">
+              <article
+                aria-labelledby="thrive-forward-heading"
+                className="rounded-[var(--radius-card)] border-[1.5px] border-sand bg-white p-6 shadow-card hc-outline sm:p-8"
+              >
+                <div className="mb-5 flex flex-wrap items-center gap-x-5 gap-y-3">
+                  <img
+                    src={thriveMark}
+                    alt=""
+                    width={240}
+                    height={240}
+                    loading="lazy"
+                    className="size-20 shrink-0 sm:size-24"
+                  />
+                  <div>
+                    <h3
+                      id="thrive-forward-heading"
+                      className="m-0 font-display text-[clamp(1.5rem,3vw,2rem)] font-semibold leading-tight text-terracotta"
+                    >
+                      Thrive Forward
+                    </h3>
+                    <p className="m-0 mt-1 font-sans text-xs font-semibold uppercase tracking-[0.14em] text-charcoal">
+                      Skills &amp; Wellness Navigator
+                    </p>
+                    <p className="m-0 mt-2 inline-block rounded-full bg-marigold px-3 py-0.5 font-sans text-xs font-bold tracking-[0.08em] text-charcoal">
+                      2026
+                    </p>
+                  </div>
+                </div>
+
+                <div className="border-t-[3px] border-marigold pt-5">
+                  <h4 className="m-0 mb-3 font-display text-lg font-semibold text-terracotta">
+                    Evidence-Based Wellness Programme
+                  </h4>
+                  <p className="m-0 font-sans text-[0.9375rem] leading-relaxed text-charcoal">
+                    This inclusive programme supports refugees through skills development and
+                    wellness initiatives, helping participants build confidence, strengthen
+                    capabilities, and pursue opportunities while promoting wellbeing, inclusion,
+                    and meaningful participation in their communities.
+                  </p>
+                </div>
+              </article>
+
+              <DownloadLink
+                href="/documents/thrive-forward-skills-navigator.pdf"
+                label="Thrive Forward Skills Navigator"
+                description="What the programme offers, who it is for, and how to join."
+                meta="PDF, 444 KB"
+              />
+
+              {/* Self-hosted, so no third-party player or consent gate is
+                  needed. preload="none" keeps the 5 MB file off the page load
+                  until someone presses play. */}
+              <figure className="m-0">
+                <video
+                  controls
+                  preload="none"
+                  playsInline
+                  poster={thriveVideoPoster}
+                  width={1280}
+                  height={720}
+                  aria-describedby="thrive-video-caption"
+                  className="aspect-video w-full rounded-[var(--radius-card)] bg-charcoal shadow-card hc-outline"
+                >
+                  <source src="/media/thrive-forward-guide.mp4" type="video/mp4" />
+                  <track
+                    kind="captions"
+                    src="/media/thrive-forward-guide.en.vtt"
+                    srcLang="en"
+                    label="English"
+                    default
+                  />
+                  <a href="/media/thrive-forward-guide.mp4">Download the Thrive Forward guide video</a>
+                </video>
+                <figcaption
+                  id="thrive-video-caption"
+                  className="mt-3 font-sans text-[0.9375rem] leading-relaxed text-charcoal"
+                >
+                  <strong className="font-semibold">Watch: the Thrive Forward guide</strong> — what
+                  is inside the guidebook, and how to use it to rebuild confidence and find work.
+                  1 min 32 s. Captions are on by default.
+                </figcaption>
+                <details className="mt-3 rounded-xl border-[1.5px] border-sand bg-white px-4 py-3 font-sans text-[0.9375rem] leading-relaxed text-charcoal">
+                  <summary className="cursor-pointer font-semibold">Read the transcript</summary>
+                  <div className="mt-3 flex flex-col gap-3">
+                    {TRANSCRIPT.map((line) => (
+                      <p key={line} className="m-0">
+                        {line}
+                      </p>
+                    ))}
+                  </div>
+                </details>
+              </figure>
             </Reveal>
           </div>
 

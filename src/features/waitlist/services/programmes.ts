@@ -14,6 +14,13 @@ export const PROGRAMMES: readonly Programme[] = [
     availability: 'open',
   },
   {
+    id: 'thrive-forward',
+    name: 'Thrive Forward Skills & Wellness Navigator',
+    audience: 'Refugees and asylum seekers with permission to work, Newham',
+    group: 'Wellbeing',
+    availability: 'open',
+  },
+  {
     id: 'stem-sports',
     name: 'STEM Sports',
     audience: 'Year 1–9 plus special education, NEET, adult returners',
@@ -69,6 +76,13 @@ export const PROGRAMMES: readonly Programme[] = [
     group: 'Resources',
     availability: 'coming-soon',
   },
+  {
+    id: 'thrive-forward-guidebook',
+    name: 'Refugee Skills & Wellness Navigator',
+    audience: 'A gentle guide for rebuilding confidence, skills, and wellbeing in Newham',
+    group: 'Thrive Forward',
+    availability: 'open',
+  },
 ] as const;
 
 export const PROGRAMME_GROUP_ORDER: readonly ProgrammeGroup[] = [
@@ -76,6 +90,7 @@ export const PROGRAMME_GROUP_ORDER: readonly ProgrammeGroup[] = [
   'STEM',
   'LaunchPad101',
   'Resources',
+  'Thrive Forward',
 ];
 
 const BY_ID = new Map<ProgrammeId, Programme>(PROGRAMMES.map((p) => [p.id, p]));
