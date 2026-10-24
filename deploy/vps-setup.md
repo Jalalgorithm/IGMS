@@ -537,8 +537,11 @@ own key, then save.
 Get the server's fingerprint line for GitHub (on your PC):
 
 ```powershell
-ssh-keyscan 217.154.57.237
+ssh-keyscan -t ed25519 217.154.57.237
 ```
+
+It prints one line like `217.154.57.237 ssh-ed25519 AAAAC3Nz…`. Copy **that
+whole line** (ignore any line starting with `#`).
 
 ### 9.2 GitHub secrets
 
@@ -550,7 +553,7 @@ Actions → New repository secret**, add:
 | `SSH_HOST` | `217.154.57.237` |
 | `SSH_USER` | `deploy` |
 | `SSH_KEY` | the **whole** contents of `igms_github_deploy` (the private file, including the `-----BEGIN` / `-----END` lines) |
-| `KNOWN_HOSTS` | the `ssh-ed25519` line from `ssh-keyscan` |
+| `KNOWN_HOSTS` | the whole `217.154.57.237 ssh-ed25519 AAAA…` line from `ssh-keyscan` |
 | `SITE_URL` | `https://igms-cic.org` |
 | `DEPLOY_PATH` | `/var/www/igms` |
 | `RELEASES_PATH` | `/var/www/igms-releases` |
