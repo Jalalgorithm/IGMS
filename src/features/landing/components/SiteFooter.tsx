@@ -1,5 +1,6 @@
 import type { ReactNode } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router';
+import megBadge from '@/assets/brand/meg-licensed-champion-2026.png';
 import mark from '@/assets/brand/igms-mark.png';
 // Imported from the legal feature's leaf modules rather than its barrel: the
 // barrel re-exports PolicyPage, which renders this footer, and going through
@@ -63,28 +64,37 @@ export const SiteFooter = () => {
     <footer className="on-dark bg-charcoal px-6 pb-10 pt-16 text-ivory md:px-12">
       <div className="mx-auto max-w-[80rem]">
         {/* Brand + site navigation */}
-        <div className="mb-12 flex flex-wrap items-center justify-between gap-8 border-b border-ivory/15 pb-10">
+        <div className="mb-12 flex flex-col gap-8 border-b border-ivory/15 pb-10">
           <div className="flex items-center gap-3">
             <img src={mark} alt="" className="h-12 w-auto object-contain" aria-hidden="true" />
             <span className="font-display text-xl font-semibold text-marigold">
               Integrated Global Menospace Solutions
             </span>
           </div>
-          <nav aria-label="Footer">
-            <ul className="m-0 flex list-none flex-wrap gap-x-6 gap-y-3 p-0">
-              {NAV_ITEMS.map((item) => (
-                <li key={item.targetId}>
-                  <a
-                    href={`#${item.targetId}`}
-                    onClick={(event) => handleSectionClick(event, item.targetId)}
-                    className="font-sans text-sm font-medium text-ivory/85 no-underline hover:text-marigold"
-                  >
-                    {item.label}
-                  </a>
-                </li>
-              ))}
-            </ul>
-          </nav>
+          <div className="flex flex-wrap items-center justify-between gap-x-8 gap-y-6">
+            <nav aria-label="Footer">
+              <ul className="m-0 flex list-none flex-wrap gap-x-6 gap-y-3 p-0">
+                {NAV_ITEMS.map((item) => (
+                  <li key={item.targetId}>
+                    <a
+                      href={`#${item.targetId}`}
+                      onClick={(event) => handleSectionClick(event, item.targetId)}
+                      className="font-sans text-sm font-medium text-ivory/85 no-underline hover:text-marigold"
+                    >
+                      {item.label}
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </nav>
+            <img
+              src={megBadge}
+              alt="Menopause Experts Licensed Champion 2026"
+              width={240}
+              height={217}
+              className="ml-auto h-16 w-auto shrink-0"
+            />
+          </div>
         </div>
 
         <div className="grid grid-cols-1 gap-12 md:grid-cols-2 md:gap-16">
@@ -113,7 +123,12 @@ export const SiteFooter = () => {
                 <br />
                 ICO registration no.{' '}
                 <strong className="font-semibold text-ivory">{ORG.icoRegistration}</strong> ·{' '}
-                <a href={ORG.icoRegisterUrl} target="_blank" rel="noreferrer noopener" className={LINK}>
+                <a
+                  href={ORG.icoRegisterUrl}
+                  target="_blank"
+                  rel="noreferrer noopener"
+                  className={LINK}
+                >
                   Verify at ico.org.uk
                   <NewTab />
                 </a>
@@ -172,7 +187,12 @@ export const SiteFooter = () => {
                 </li>
                 <li>
                   Website:{' '}
-                  <a href={ORG_NG.websiteUrl} target="_blank" rel="noreferrer noopener" className={LINK}>
+                  <a
+                    href={ORG_NG.websiteUrl}
+                    target="_blank"
+                    rel="noreferrer noopener"
+                    className={LINK}
+                  >
                     {ORG_NG.websiteLabel}
                     <NewTab />
                   </a>
@@ -183,7 +203,10 @@ export const SiteFooter = () => {
             <Detail heading="Data protection">
               <p className="m-0">
                 Your details are handled under the{' '}
-                <strong className="font-semibold text-ivory">Nigeria Data Protection Act 2023</strong>.
+                <strong className="font-semibold text-ivory">
+                  Nigeria Data Protection Act 2023
+                </strong>
+                .
                 <br />
                 NDPC no.{' '}
                 {ORG_NG.ndpcNumber ? (
@@ -212,7 +235,9 @@ export const SiteFooter = () => {
                 <br />
                 HEFAMAA accreditation:{' '}
                 {ORG_NG.hefamaaAccreditation ? (
-                  <strong className="font-semibold text-ivory">{ORG_NG.hefamaaAccreditation}</strong>
+                  <strong className="font-semibold text-ivory">
+                    {ORG_NG.hefamaaAccreditation}
+                  </strong>
                 ) : (
                   <Pending />
                 )}
@@ -223,9 +248,12 @@ export const SiteFooter = () => {
               <p className="m-0">Non-clinical service: no diagnosis or prescribed medicines.</p>
             </Detail>
 
-            <p className="m-0 font-sans text-[0.8125rem] text-ivory/80">
-              {ORG_NG.shortName} · RC {ORG_NG.rcNumber}
-            </p>
+            <Detail heading="Company">
+              <p className="m-0">
+                Limited by Guarantee · Company number{' '}
+                <strong className="font-semibold text-ivory">RC {ORG_NG.rcNumber}</strong>
+              </p>
+            </Detail>
           </section>
         </div>
 
@@ -249,34 +277,10 @@ export const SiteFooter = () => {
             </ul>
           </nav>
 
-          <div className="flex flex-col gap-2 font-sans text-xs text-ivory/70 md:flex-row md:items-end md:justify-between">
+          <div className="font-sans text-xs text-ivory/70">
             <p className="m-0">
               &copy; {new Date().getFullYear()} Integrated Global Menospace Solutions. All rights
               reserved.
-            </p>
-            {/* Required by CC-BY 4.0 for the self-hosted flag font. */}
-            <p className="m-0">
-              Country flag graphics by{' '}
-              <a
-                href="https://github.com/twitter/twemoji"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-ivory/90 underline underline-offset-2 hover:text-marigold"
-              >
-                Twemoji
-                <NewTab />
-              </a>
-              , licensed under{' '}
-              <a
-                href="https://creativecommons.org/licenses/by/4.0/"
-                target="_blank"
-                rel="noopener noreferrer license"
-                className="text-ivory/90 underline underline-offset-2 hover:text-marigold"
-              >
-                CC BY 4.0
-                <NewTab />
-              </a>
-              .
             </p>
           </div>
         </div>

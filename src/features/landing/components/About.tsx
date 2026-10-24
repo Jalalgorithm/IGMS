@@ -1,9 +1,11 @@
 import collaboration from '@/assets/images/about-collaboration.jpg';
 import outdoors from '@/assets/images/about-outdoors.jpg';
 import session from '@/assets/images/about-session.jpg';
+// Pexels licence (free, commercial use, no attribution required):
+// https://www.pexels.com/photo/group-of-smiling-women-standing-together-7951920/ — RDNE Stock project
+import womenTogether from '@/assets/images/about-women-together.jpg';
 import { Reveal } from '@/components/shared/Reveal';
 import { SectionHeading } from '@/components/shared/SectionHeading';
-import { StatusChip } from '@/components/ui/StatusChip';
 
 const PRINCIPLES = [
   {
@@ -62,16 +64,21 @@ export const About = () => (
           />
         </div>
 
+        <div className="absolute bottom-0 left-[4%] h-[30%] w-[40%] overflow-hidden rounded-[1rem] border-[6px] border-ivory shadow-lifted">
+          <img
+            src={womenTogether}
+            alt="A group of smiling women of different ages and backgrounds standing together"
+            className="photo-grade size-full object-cover object-[50%_30%]"
+            loading="lazy"
+          />
+        </div>
+
         <div className="absolute -left-8 top-[8%] max-w-[11.875rem] rounded-2xl bg-terracotta px-6 py-5 text-ivory shadow-lifted">
           <p className="m-0 font-display text-[1.0625rem] font-semibold leading-tight">
             4 focus areas. One mission.
           </p>
         </div>
 
-        <div className="absolute -bottom-7 left-[14%] flex items-center gap-3 whitespace-nowrap rounded-full border-[1.5px] border-charcoal/15 bg-ivory py-2 pl-4 pr-2 shadow-card">
-          <span className="font-sans text-xs text-warm-grey">Impact figures to follow</span>
-          <StatusChip kind="placeholder" />
-        </div>
       </Reveal>
 
       {/* Stacked images on small screens, where the overlap would collapse. */}
@@ -90,6 +97,12 @@ export const About = () => (
           src={session}
           alt="Attendees seated at a community education session"
           className="photo-grade h-40 w-full rounded-[1.25rem] object-cover shadow-card"
+        />
+        <img
+          src={womenTogether}
+          alt="A group of smiling women of different ages and backgrounds standing together"
+          className="photo-grade h-56 w-full rounded-[1.25rem] object-cover object-[50%_30%] shadow-card sm:col-span-2"
+          loading="lazy"
         />
       </div>
 

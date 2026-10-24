@@ -14,7 +14,6 @@ export const Testimonials = () => (
       <SectionHeading
         id="testimonials-heading"
         title="What people say"
-        adornment={<StatusChip kind="placeholder" />}
         align="center"
       />
     </Reveal>
@@ -23,12 +22,9 @@ export const Testimonials = () => (
       {SLOTS.map((slot) => (
         <li key={slot} className="contents">
           <Reveal className="rounded-[var(--radius-card)] bg-white p-8 shadow-card hc-outline">
-            <p className="m-0 mb-6 font-sans text-[0.9375rem] italic leading-[1.7] text-warm-grey">
-              &ldquo;Quote pending — to be collected from a programme participant.&rdquo;
-            </p>
-            <p className="m-0 font-sans text-sm font-semibold text-charcoal">Name</p>
-            <p className="m-0 mt-0.5 font-sans text-[0.8125rem] text-warm-grey">
-              Programme participant
+            <StatusChip kind="coming-soon" className="mb-5" />
+            <p className="m-0 font-sans text-[0.9375rem] leading-[1.7] text-warm-grey">
+              Stories from people taking part in our programmes will be shared here.
             </p>
           </Reveal>
         </li>

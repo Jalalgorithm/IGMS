@@ -14,6 +14,32 @@ export interface CountryOption {
   readonly flag: string;
 }
 
+/**
+ * Whether this device can draw flag emoji. Windows cannot: it prints the two
+ * letters instead ("GB"), which reads as noise beside the dialling code, so
+ * flags are left out there. Detected once by drawing 🇬🇧 and checking for
+ * colour — letter fallbacks render in a single flat colour.
+ */
+export const SUPPORTS_FLAG_EMOJI: boolean = (() => {
+  try {
+    const canvas = document.createElement('canvas');
+    canvas.width = canvas.height = 32;
+    const ctx = canvas.getContext('2d', { willReadFrequently: true });
+    if (!ctx) return false;
+    ctx.font = '24px sans-serif';
+    ctx.textBaseline = 'top';
+    ctx.fillText('\u{1F1EC}\u{1F1E7}', 0, 0);
+    const data = ctx.getImageData(0, 0, 32, 32).data;
+    for (let i = 0; i < data.length; i += 4) {
+      const [r, g, b, a] = [data[i]!, data[i + 1]!, data[i + 2]!, data[i + 3]!];
+      if (a > 0 && (Math.abs(r - g) > 30 || Math.abs(g - b) > 30)) return true;
+    }
+    return false;
+  } catch {
+    return false;
+  }
+})();
+
 export const DEFAULT_COUNTRY: CountryCode = 'GB';
 
 /** Regional-indicator pair for an ISO 3166 code — "GB" becomes the UK flag. */

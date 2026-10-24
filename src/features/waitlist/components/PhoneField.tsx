@@ -1,12 +1,15 @@
 import { useId } from 'react';
 import { cn } from '@/utils/classNames';
-import { COUNTRIES, isCountryCode, type CountryCode } from '../services/countries';
+import {
+  COUNTRIES,
+  isCountryCode,
+  SUPPORTS_FLAG_EMOJI,
+  type CountryCode,
+} from '../services/countries';
 
 const CONTROL =
   'rounded-xl border bg-white py-3 font-sans text-base text-charcoal transition-colors duration-150';
 
-/** Flags come from the self-hosted flag font where the OS has none (Windows). */
-const FLAG_FONT = { fontFamily: '"Twemoji Country Flags", var(--font-sans)' };
 
 interface PhoneFieldProps {
   country: CountryCode;
@@ -19,8 +22,9 @@ interface PhoneFieldProps {
 }
 
 /**
- * Country code + national number. The closed control shows "🇬🇧 +44"; the
- * open list, and a screen reader, get the full country name.
+ * Country code + national number. The closed control shows "🇬🇧 +44" (or just
+ * "+44" where the device has no flag emoji); the open list, and a screen
+ * reader, get the full country name.
  */
 export const PhoneField = ({
   country,
@@ -66,9 +70,11 @@ export const PhoneField = ({
             'relative flex w-[6.5rem] shrink-0 items-center gap-2 px-3 focus-within:outline focus-within:outline-3 focus-within:outline-offset-3 focus-within:outline-terracotta',
           )}
         >
-          <span aria-hidden="true" style={FLAG_FONT} className="text-lg leading-none">
-            {selected?.flag}
-          </span>
+          {SUPPORTS_FLAG_EMOJI ? (
+            <span aria-hidden="true" className="text-lg leading-none">
+              {selected?.flag}
+            </span>
+          ) : null}
           <span aria-hidden="true">{selected?.dialCode}</span>
           <svg
             aria-hidden="true"
@@ -90,12 +96,11 @@ export const PhoneField = ({
               if (isCountryCode(event.target.value)) onCountryChange(event.target.value);
             }}
             autoComplete="tel-country-code"
-            style={FLAG_FONT}
             className="absolute inset-0 size-full cursor-pointer opacity-0 focus:outline-none"
           >
             {COUNTRIES.map((option) => (
               <option key={option.code} value={option.code}>
-                {`${option.flag} ${option.name} (${option.dialCode})`}
+                {`${SUPPORTS_FLAG_EMOJI ? `${option.flag} ` : ''}${option.name} (${option.dialCode})`}
               </option>
             ))}
           </select>

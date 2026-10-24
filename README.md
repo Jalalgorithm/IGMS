@@ -192,10 +192,9 @@ The waitlist phone field pairs a country selector with the number and sends
 E.164 (`+447911123456`). Validation uses `libphonenumber-js` (MIT) in both
 this site and the backend, so the two agree on what a valid number is.
 
-Windows has no flag emoji, so `country-flag-emoji-polyfill` loads a flag-only
-font — self-hosted from `src/assets/fonts/`, never from its default CDN. The
-flag artwork is from [Twemoji](https://github.com/twitter/twemoji), used under
-[CC-BY 4.0](https://creativecommons.org/licenses/by/4.0/).
+Flags use the device's own emoji. Windows has none and would print letter
+pairs ("GB"), so the picker detects that and shows only the dialling code
+there. No third-party flag artwork is bundled, so no attribution is needed.
 
 ## Legal pages and cookie consent
 

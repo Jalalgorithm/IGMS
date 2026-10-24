@@ -87,8 +87,8 @@ export const PROGRAMMES: readonly Programme[] = [
 
 export const PROGRAMME_GROUP_ORDER: readonly ProgrammeGroup[] = [
   'Wellbeing',
-  'STEM',
   'LaunchPad101',
+  'STEM',
   'Resources',
   'Thrive Forward',
 ];
