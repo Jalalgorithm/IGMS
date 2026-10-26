@@ -1,5 +1,4 @@
 import { useId } from 'react';
-import { StatusChip } from '@/components/ui/StatusChip';
 import { cn } from '@/utils/classNames';
 import { groupProgrammes } from '../services/programmes';
 import type { ProgrammeId } from '../types';
@@ -33,8 +32,7 @@ export const ProgrammePicker = ({ selected, onToggle, error }: ProgrammePickerPr
         </span>
       </legend>
       <p className="mb-4 font-sans text-sm text-warm-grey">
-        Choose as many as you like. Programmes marked <em>Coming soon</em> are not running
-        yet — joining the waitlist is how you hear first.
+        Choose as many as you like.
       </p>
 
       <div className="flex flex-col gap-5">
@@ -72,12 +70,6 @@ export const ProgrammePicker = ({ selected, onToggle, error }: ProgrammePickerPr
                         <span className="font-sans text-sm font-semibold text-charcoal">
                           {programme.name}
                         </span>
-                        {programme.availability === 'coming-soon' ? (
-                          <StatusChip
-                            kind="coming-soon"
-                            className={isSelected ? 'border-charcoal/30 bg-transparent' : undefined}
-                          />
-                        ) : null}
                       </span>
                       <span className="font-sans text-xs leading-relaxed text-charcoal/75">
                         {programme.audience}

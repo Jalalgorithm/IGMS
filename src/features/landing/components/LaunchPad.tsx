@@ -5,7 +5,6 @@ import { Reveal } from '@/components/shared/Reveal';
 import { SectionHeading } from '@/components/shared/SectionHeading';
 import { Button } from '@/components/ui/Button';
 import { DownloadLink } from '@/components/ui/DownloadLink';
-import { StatusChip } from '@/components/ui/StatusChip';
 import { useWaitlistUiStore } from '@/stores/waitlistUiStore';
 import { scrollToSection } from '@/utils/scrollToSection';
 import type { ProgrammeId } from '@/features/waitlist';
@@ -62,19 +61,14 @@ export const LaunchPad = () => {
               <SectionHeading
                 id="launchpad-heading"
                 title="LaunchPad101"
-                adornment={<StatusChip kind="coming-soon" />}
               />
             </Reveal>
 
             <Reveal>
-              <p className="m-0 mb-6 mt-5 max-w-2xl font-sans text-base leading-[1.75] text-charcoal">
+              <p className="m-0 mt-5 max-w-2xl font-sans text-base leading-[1.75] text-charcoal">
                 An inclusive career preparation platform turning career gaps into an
                 opportunity-focused narrative — AI interview practice, CV building, leadership
                 development, and a NEET employability module. Six pathways, one platform.
-              </p>
-              <p className="m-0 max-w-2xl font-sans text-[0.9375rem] text-charcoal">
-                None of the six is open yet. Choose the one that fits and we will tell you the
-                day it launches.
               </p>
             </Reveal>
 
