@@ -56,8 +56,9 @@ export const SiteFooter = () => {
       scrollToSection(targetId);
       return;
     }
-    navigate('/');
-    window.requestAnimationFrame(() => scrollToSection(targetId));
+    // Go home with the section in the address: the router's scroll handling
+    // lands on it once the page has rendered.
+    navigate(`/#${targetId}`);
   };
 
   return (
@@ -92,7 +93,7 @@ export const SiteFooter = () => {
               alt="Menopause Experts Licensed Champion 2026"
               width={240}
               height={217}
-              className="ml-auto h-16 w-auto shrink-0"
+              className="ml-auto h-24 w-auto shrink-0 sm:h-28"
             />
           </div>
         </div>
@@ -252,6 +253,13 @@ export const SiteFooter = () => {
               <p className="m-0">
                 Limited by Guarantee · Company number{' '}
                 <strong className="font-semibold text-ivory">RC {ORG_NG.rcNumber}</strong>
+              </p>
+              <p className="m-0 mt-1.5">
+                Website:{' '}
+                <a href={ORG_NG.websiteUrl} target="_blank" rel="noreferrer noopener" className={LINK}>
+                  {ORG_NG.websiteLabel}
+                  <NewTab />
+                </a>
               </p>
             </Detail>
           </section>

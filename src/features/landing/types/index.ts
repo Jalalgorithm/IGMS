@@ -32,6 +32,8 @@ export interface FocusArea {
   readonly summary: string;
   readonly image: string;
   readonly alt: string;
+  /** Artwork rather than a photo: skip the photographic grade, and frame it here. */
+  readonly illustration?: { readonly position: string };
 }
 
 export interface PathwayCard {

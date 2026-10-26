@@ -14,9 +14,11 @@ export const NAV_ENTRIES: readonly NavEntry[] = [
     label: 'Focus Areas',
     targetId: 'focus-areas',
     children: [
+      { targetId: 'disability-access', label: 'Everyday Access Tech' },
       { targetId: 'lift-project', label: 'The Lift Project' },
       { targetId: 'stem-sports', label: 'STEM Sports' },
       { targetId: 'launchpad', label: 'LaunchPad101' },
+      { targetId: 'menospaces', label: 'MenoSPACES' },
     ],
   },
   { targetId: 'easyask', label: 'EasyAsk' },
@@ -64,6 +66,8 @@ export const PARTNER_LINKS = {
 export const ORG = {
   legalName: 'Integrated Global Menospace Solutions CIC',
   shortName: 'IGMS',
+  /** Public contact inbox — also printed on the programme posters. */
+  email: 'hello@igms-cic.org',
   /** Companies House number — shown in the footer and the waitlist emails. */
   registeredNumber: '16227437',
   address: 'Office 11436, 182–184 High Street North, East Ham, London E6 2JA, United Kingdom',

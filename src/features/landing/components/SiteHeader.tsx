@@ -31,10 +31,10 @@ export const SiteHeader = () => {
       return;
     }
 
-    // From a policy page these anchors have nothing to scroll to, so go home
-    // first and scroll once the section has actually rendered.
-    navigate('/');
-    window.requestAnimationFrame(() => scrollToSection(targetId));
+    // From another page these anchors have nothing to scroll to here.
+    // Go home with the section in the address: the router's scroll handling
+    // lands on it once the page has rendered.
+    navigate(`/#${targetId}`);
   };
 
   const handleNavClick = (event: React.MouseEvent<HTMLAnchorElement>, targetId: string): void => {
